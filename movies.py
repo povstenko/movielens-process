@@ -5,6 +5,29 @@ import csv
 import argparse
 
 
+def read_csv(file_path: str, delimiter: str = ',') -> list:
+    """Read data from CSV file and return it as a list
+
+    Parameters
+    ----------
+    file_path : str
+        File name of csv file
+    delimiter : str, optional
+        Delimiter of csv file, by default ','
+
+    Returns
+    -------
+    list
+        Data from file stored in list of dicts with column names as a keys
+    """
+    data = []
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=delimiter)
+        for row in reader:
+            data.append(row)
+    return data
+
+
 def construct_argument_parser() -> dict:
     """Construct the argument parser and get the arguments
 
@@ -34,22 +57,28 @@ def main():
     # check if user don't pass any arguments
     if not any(args.values()):
         print('Pass arguments')
+        exit()
+
+    movies = read_csv('data/movies.csv')
+    print(movies[:5])
+    ratings = read_csv('data/ratings.csv')
+    print(ratings[:5])
 
     if args['topN']:
         print('topN')
-    
+
     if args['genres']:
         print('genres')
-        
+
     if args['year_from']:
         print('year_from')
-        
+
     if args['year_to']:
         print('year_to')
-        
+
     if args['regexp']:
         print('regexp')
-        
+
 
 if __name__ == "__main__":
     main()
