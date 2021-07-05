@@ -55,7 +55,7 @@ def get_sorted_data(data: list, sort_by: str, reverse=True) -> list:
     sort_by : str
         Sort data by specific column
     reverse : bool, optional
-        Flag to determinate order of sorting, by default True
+        Flag to determinate order of sorting (False - asc, True - desc), by default True
 
     Returns
     -------
@@ -66,6 +66,24 @@ def get_sorted_data(data: list, sort_by: str, reverse=True) -> list:
 
 
 def get_groupped_data(data: list,  group_by: str, agg_column: str, agg_function='mean') -> list:
+    """Group data by column and apply aggregation function
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    group_by : str
+        Column of groupping operation
+    agg_column : str
+        Column of aggregation
+    agg_function : str, optional
+        Aggregation function, by default 'mean'
+
+    Returns
+    -------
+    list
+        Groupped data stored in list of dicts
+    """
     groupped_data = []
 
     for k, v in groupby(data, key=lambda x: x[group_by]):
@@ -109,10 +127,10 @@ def main():
         exit()
 
     movies = read_csv('data/movies.csv')
-    data_info(movies)
+    # data_info(movies)
     # print(movies[:5])
     ratings = read_csv('data/ratings.csv')
-    data_info(ratings)
+    # data_info(ratings)
     # print(ratings[:2])
 
     sorted_ratings = get_sorted_data(ratings, 'movieId')
