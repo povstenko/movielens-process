@@ -118,6 +118,33 @@ def construct_argument_parser() -> dict:
     return vars(ap.parse_args())
 
 
+def merge_two_datasets(data_left: list, data_right: list, join_on: str) -> list:
+    """Merge Join two sorted datasets (tables) into one on unique key
+
+    Parameters
+    ----------
+    data_left : list
+        Left data stored in list of dicts 
+    data_right : list
+        Right data stored in list of dicts
+    join_on : str
+        Common unique column key of two datasets
+
+    Returns
+    -------
+    list
+        Merged data stored in list of dicts
+    """
+    merged_data = []
+    for row_left in data_left:
+        for row_right in data_right:
+            if row_left[join_on] == row_right[join_on]:
+                merged_data.append({**row_left, **row_right})
+                break
+    
+    return merged_data
+
+
 def main():
     args = construct_argument_parser()
 
@@ -139,9 +166,19 @@ def main():
     groupped_ratings = get_groupped_data(sorted_ratings, 'movieId', 'rating')
     
     
-    groupped_ratings = get_sorted_data(groupped_ratings, 'movieId', reverse=False)
-    print(groupped_ratings[:5])
+    # sort datasets before merge
+    sorted_movies = get_sorted_data(movies, 'movieId', reverse=False)
+    print(sorted_movies[:3])
+    data_info(sorted_movies)
+    sorted_ratings = get_sorted_data(groupped_ratings, 'movieId', reverse=False)
+    print(sorted_ratings[:3])
+    data_info(sorted_ratings)
 
+    
+    merged_data = merge_two_datasets(sorted_movies, sorted_ratings, 'movieId')
+    print(merged_data[:3])
+    data_info(merged_data)
+    
     # if args['topN']:
     #     print('topN')
 
