@@ -32,12 +32,24 @@ def main():
     args = construct_argument_parser()
 
     # check if user don't pass any arguments
-    if all(x == None for x in args.values()):
+    if not any(args.values()):
         print('Pass arguments')
 
     if args['topN']:
         print('topN')
-
+    
+    if args['genres']:
+        print('genres')
+        
+    if args['year_from']:
+        print('year_from')
+        
+    if args['year_to']:
+        print('year_to')
+        
+    if args['regexp']:
+        print('regexp')
+        
 
 if __name__ == "__main__":
     main()
