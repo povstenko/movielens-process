@@ -25,7 +25,42 @@ def read_csv(file_path: str, delimiter: str = ',') -> list:
         reader = csv.DictReader(csvfile, delimiter=delimiter)
         for row in reader:
             data.append(row)
+
     return data
+
+
+def data_info(data: list) -> None:
+    """Print data summary info
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    """
+    cols = list(data[0].keys())
+    print(f'Columns: {cols} \
+        \nNumber of columns: {len(cols)} \
+        \nNumber of rows: {len(data)}\n')
+
+
+def get_sorted_data(data: list, sort_by: str, reverse=True) -> list:
+    """Get sorted data by column and order
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    sort_by : str
+        Sort data by specific column
+    reverse : bool, optional
+        Flag to determinate order of sorting, by default True
+
+    Returns
+    -------
+    list
+        Sorted data stored in list of dicts
+    """
+    return sorted(data, key=lambda k: k[sort_by], reverse=reverse)
 
 
 def construct_argument_parser() -> dict:
@@ -60,9 +95,14 @@ def main():
         exit()
 
     movies = read_csv('data/movies.csv')
-    print(movies[:5])
+    data_info(movies)
+    # print(movies[:5])
     ratings = read_csv('data/ratings.csv')
-    print(ratings[:5])
+    data_info(ratings)
+    print(ratings[:2])
+
+    sorted_ratings = get_sorted_data(ratings, 'movieId')
+    print(sorted_ratings[:2])
 
     if args['topN']:
         print('topN')
