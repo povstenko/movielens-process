@@ -135,13 +135,20 @@ def merge_two_datasets(data_left: list, data_right: list, join_on: str) -> list:
     list
         Merged data stored in list of dicts
     """
+    # data right columns with None values in case when right table don`t match left
+    columns_right = list(data_right[0])
+    columns_right.remove(join_on)
+    right_none = dict.fromkeys(columns_right, None)
+    
     merged_data = []
     for row_left in data_left:
+        merged_row = {**row_left, **right_none}
         for row_right in data_right:
             if row_left[join_on] == row_right[join_on]:
-                merged_data.append({**row_left, **row_right})
+                merged_row = {**row_left, **row_right}
                 break
-    
+        merged_data.append(merged_row)
+
     return merged_data
 
 
@@ -164,21 +171,20 @@ def main():
     # print(sorted_ratings[:2])
 
     groupped_ratings = get_groupped_data(sorted_ratings, 'movieId', 'rating')
-    
-    
+
     # sort datasets before merge
     sorted_movies = get_sorted_data(movies, 'movieId', reverse=False)
     print(sorted_movies[:3])
     data_info(sorted_movies)
-    sorted_ratings = get_sorted_data(groupped_ratings, 'movieId', reverse=False)
+    sorted_ratings = get_sorted_data(
+        groupped_ratings, 'movieId', reverse=False)
     print(sorted_ratings[:3])
     data_info(sorted_ratings)
 
-    
     merged_data = merge_two_datasets(sorted_movies, sorted_ratings, 'movieId')
     print(merged_data[:3])
     data_info(merged_data)
-    
+
     # if args['topN']:
     #     print('topN')
 
