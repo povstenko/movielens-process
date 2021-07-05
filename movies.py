@@ -3,6 +3,8 @@
 # import the necessary packages
 import csv
 import argparse
+from itertools import groupby
+from statistics import mean
 
 
 def read_csv(file_path: str, delimiter: str = ',') -> list:
@@ -63,6 +65,18 @@ def get_sorted_data(data: list, sort_by: str, reverse=True) -> list:
     return sorted(data, key=lambda k: k[sort_by], reverse=reverse)
 
 
+def get_groupped_data(data: list,  group_by: str, agg_column: str, agg_function='mean') -> list:
+    groupped_data = []
+
+    for k, v in groupby(data, key=lambda x: x[group_by]):
+        group_row = {group_by: k}
+        agg_vals = [float(i[agg_column]) for i in v]
+        group_row[agg_column] = round(mean(agg_vals), 1)
+        groupped_data.append(group_row)
+
+    return groupped_data
+
+
 def construct_argument_parser() -> dict:
     """Construct the argument parser and get the arguments
 
@@ -99,25 +113,31 @@ def main():
     # print(movies[:5])
     ratings = read_csv('data/ratings.csv')
     data_info(ratings)
-    print(ratings[:2])
+    # print(ratings[:2])
 
     sorted_ratings = get_sorted_data(ratings, 'movieId')
-    print(sorted_ratings[:2])
+    # print(sorted_ratings[:2])
 
-    if args['topN']:
-        print('topN')
+    groupped_ratings = get_groupped_data(sorted_ratings, 'movieId', 'rating')
+    
+    
+    groupped_ratings = get_sorted_data(groupped_ratings, 'movieId', reverse=False)
+    print(groupped_ratings[:5])
 
-    if args['genres']:
-        print('genres')
+    # if args['topN']:
+    #     print('topN')
 
-    if args['year_from']:
-        print('year_from')
+    # if args['genres']:
+    #     print('genres')
 
-    if args['year_to']:
-        print('year_to')
+    # if args['year_from']:
+    #     print('year_from')
 
-    if args['regexp']:
-        print('regexp')
+    # if args['year_to']:
+    #     print('year_to')
+
+    # if args['regexp']:
+    #     print('regexp')
 
 
 if __name__ == "__main__":
