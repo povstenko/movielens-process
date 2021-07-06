@@ -44,9 +44,12 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
     n_rows : [type], optional
         Number of rows to display, by default None
     """
-    if n_rows:
+    if n_rows and len(data) >= n_rows:
         data = data[:n_rows]
 
+    if len(data) == 0:
+        return 0
+    
     header = ''
     for k, v in data[0].items():
         header += delimiter + k
@@ -377,7 +380,7 @@ def main():
         print(args['year_to'])
 
     if args['regexp']:
-        print(args['regexp'])
+        data = filter_data_column_contains(data, 'title', args['regexp'])
 
     if args['genres']:
         genres = args['genres'].split('|')
