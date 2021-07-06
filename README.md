@@ -1,5 +1,5 @@
 
-# MovieLens topN movies
+# Top MovieLens
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000)](https://github.com/povstenko/movielens-process)
 [![Apache 2.0](https://img.shields.io/aur/license/android-studio.svg?)](https://www.apache.org/licenses/LICENSE-2.0/)
@@ -8,14 +8,14 @@ This script allows user to get information about top rated films.
 
 ## Table of Contents
 
--  [Parameters](#parameters)
--  [Usage](#usage)
-*  [Get top N ranked movies](#get-top-n-ranked movies)
-*  [Search by title](#search-by-title)
-*  [Filter by year](#filter-by-year)
-*  [Top films for each genre](#top-films-for-each-genre)
-*  [Saving output to file](#saving-output-to-file)
--  [License](#license)
+- [Parameters](#parameters)
+- [Usage](#usage)
+  * [Get top N ranked movies](#get-top-n-ranked-movies)
+  * [Search by title](#search-by-title)
+  * [Filter by year](#filter-by-year)
+  * [Top films for each genre](#top-films-for-each-genre)
+  * [Saving output to file](#saving-output-to-file)
+- [License](#license)
 
   
 
@@ -45,7 +45,9 @@ movieId,title,genres,year,rating
 ```
 
 ###  Search by title
-Pass [RegEx](https://en.wikipedia.org/wiki/Regular_expression) as a argument of `--regexp` to search by movie title. For example, to get  top 2 films about "love" use command:
+Pass [RegEx](https://en.wikipedia.org/wiki/Regular_expression) as a argument of `--regexp` to search by movie title.
+
+For example, to get  top 2 films about "love" use command:
 ```
 $python movies.py -n 2 -r love
 ```
@@ -57,7 +59,7 @@ movieId,title,genres,year,rating
 ```
 
 ### Filter by year
-Use `--year_from` and `year_from` to determinate movie`s year range.
+Use `--year_from` and `year_from` to determinate movie\`s year range.
 
 This command returns movies with "love" in title and the year is more or equal than 1995:
 ```
