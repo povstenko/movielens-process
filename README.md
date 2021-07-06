@@ -1,7 +1,7 @@
 
 # Top MovieLens
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000)](https://github.com/povstenko/movielens-process)
+[![GitHub](https://img.shields.io/badge/GitHub-100000)](https://github.com/povstenko/movielens-top)
 [![Apache 2.0](https://img.shields.io/aur/license/android-studio.svg?)](https://www.apache.org/licenses/LICENSE-2.0/)
 
 This script allows user to get information about top rated films.
@@ -132,4 +132,4 @@ movieId,title,genres,year,rating
 
 ## License
 
-Apache 2.0 License: [www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0/) or see [the `LICENSE` file](https://github.com/povstenko/movielens-process/blob/main/LICENSE).
+Apache 2.0 License: [www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0/) or see [the `LICENSE` file](https://github.com/povstenko/movielens-top/blob/main/LICENSE).
