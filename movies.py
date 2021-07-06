@@ -1,4 +1,26 @@
+"""MovieLens Dataset exploration using python
 
+This script allows user to get information about films.
+
+This file can also be imported as a module and contains the following
+functions:
+
+    * read_csv - Read data from CSV file and return it as a list
+    * print_data_csv - Print data in csv format
+    * data_info - Print data summary info
+    * get_sorted_data - Get sorted data by column and order
+    * get_groupped_data - Group data by column and apply aggregation function
+    * merge_two_datasets - Merge Join two sorted datasets (tables) into one on unique key
+    * get_factorized_data - Factorize column of data which contains multiple categorical data by splitting it on list of categories
+    * get_categories_of_column - Get list of unique categories of non-atomic column which contains multiple categorical values splitted by delimiter
+    * split_data_column - Split column of data and create new column by regular expression
+    * filter_data_column_contains - Filter data in condition if column contains substring
+    * filter_data_column_range - Filter data by slicing integer column
+    * vertical_stack_data - Return vertically stacked data
+    * data_sliced - Dataset safe slicing method
+    * construct_argument_parser - Construct the argument parser and get the arguments
+    * main - the main function of the script
+"""
 
 # import the necessary packages
 import csv
