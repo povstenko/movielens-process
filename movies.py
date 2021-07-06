@@ -5,6 +5,7 @@ import csv
 import argparse
 from itertools import groupby
 from statistics import mean
+import re
 
 
 def read_csv(file_path: str, delimiter: str = ',') -> list:
@@ -151,7 +152,89 @@ def merge_two_datasets(data_left: list, data_right: list, join_on: str) -> list:
 
     return merged_data
 
+def get_factorized_data(data: list, column: str, delimiter=',') -> list:
+    """Factorize column of data which contains multiple 
+    categorical data by splitting it on list of categories
 
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    column : str
+        Column name to factorize
+    delimiter : str, optional
+        Delimiter of values in column, by default ','
+
+    Returns
+    -------
+    list
+        Factorized data stored in list of dicts
+    """
+    # factorized_data = []
+    
+    for row in data:
+        row[column] = row[column].split(delimiter)
+    
+    return data
+
+def get_categories_of_column(data: list, column: str, delimiter=',') -> list:
+    """Get list of unique categories of non-atomic column which contains
+    multiple categorical values splitted by delimiter
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    column : str
+        Column name which contains multiple values
+    delimiter : str, optional
+        Delimiter of values in column, by default ','
+
+    Returns
+    -------
+    list
+        Data stored in list of dicts
+    """
+    column_values = ''
+    for row in data:
+        column_values += delimiter + str(row[column])
+
+    splitted = column_values.split(delimiter)[1:]
+    categories = list(set(splitted))
+    
+    return categories
+
+def split_data_column(data: list, column: str, new_column: str, old_col_regex: str, new_col_regex: str) -> list:
+    """Split column of data and create new column by regular expression
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    column : str
+        Column name you need to split
+    new_column : str
+        New column name 
+    old_col_regex : str
+        RegEx used to remove data from first column
+    new_col_regex : str
+        RegEx used to create new column
+
+    Returns
+    -------
+    list
+        Data stored in list of dicts
+    """
+    for row in data:
+        if re.search(new_col_regex, row[column]):
+            new_col_val = re.search(new_col_regex, row[column]).group()
+        else:
+            new_col_val = None
+        row[new_column] = new_col_val
+        row[column] = re.sub(old_col_regex, '', row[column])
+    
+    return data
+    
 def main():
     args = construct_argument_parser()
 
@@ -163,6 +246,13 @@ def main():
     movies = read_csv('data/movies.csv')
     # data_info(movies)
     # print(movies[:5])
+    # genres = get_categories_of_column(movies, 'genres', delimiter='|')
+    genres_movies = get_factorized_data(movies, 'genres', delimiter='|')
+    # print(genres_movies[:2])
+    
+    movies = split_data_column(genres_movies, 'title', 'year', r'\s\(\d\d\d\d\)', r'\d\d\d\d')
+    print(movies[:2])
+    
     ratings = read_csv('data/ratings.csv')
     # data_info(ratings)
     # print(ratings[:2])
@@ -176,11 +266,11 @@ def main():
     sorted_movies = get_sorted_data(movies, 'movieId', reverse=False)
     print(sorted_movies[:3])
     data_info(sorted_movies)
-    sorted_ratings = get_sorted_data(
-        groupped_ratings, 'movieId', reverse=False)
+    sorted_ratings = get_sorted_data(groupped_ratings, 'movieId', reverse=False)
     print(sorted_ratings[:3])
     data_info(sorted_ratings)
 
+    # merge datasets
     merged_data = merge_two_datasets(sorted_movies, sorted_ratings, 'movieId')
     print(merged_data[:3])
     data_info(merged_data)
