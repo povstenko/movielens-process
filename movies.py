@@ -41,7 +41,7 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
         Data stored in list of dict
     delimiter : str, optional
         Separator of csv format, by default ','
-    n_rows : [type], optional
+    n_rows : int, optional
         Number of rows to display, by default None
     """
     if n_rows and len(data) >= n_rows:
@@ -274,6 +274,58 @@ def filter_data_column_contains(data: list, column: str, substring: str) -> list
     return filtered_data
 
 
+def filter_data_column_range(data: list, column: str, start=None, end=None) -> list:
+    """Filter data by slicing integer column
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dict
+    column : str
+        Filtered data column
+    start : int, optional
+        Lower boundary of range, by default None
+    end : int, optional
+        Higher boundary of range, by default None
+
+    Returns
+    -------
+    list
+        Filtered data stored in list of dict
+    """
+    filtered_data = []
+    
+    if start and end:
+        if start > end:
+            return None
+        
+        for row in data:
+            if not row[column]:
+                continue
+            
+            val = int(row[column])
+            if start >= val and val <= end:
+                filtered_data.append(row)
+    elif start:
+        for row in data:
+            if not row[column]:
+                continue
+            
+            if start <= int(row[column]):
+                filtered_data.append(row)
+    elif end:
+        for row in data:
+            if not row[column]:
+                continue
+            
+            if int(row[column]) <= end:
+                filtered_data.append(row)
+    else:
+        filtered_data = data
+        
+    return filtered_data
+
+
 def vertical_stack_data(data_top: list, data_bottom: list) -> list:
     """Return vertically stacked data
 
@@ -370,18 +422,16 @@ def main():
     data = merge_two_datasets(movies, ratings, 'movieId')
     data = get_sorted_data(data, 'rating', reverse=True)
     # data_info(data)
-
-    # print_data_csv(data, n_rows=args['topN'])
-
+    
     if args['year_from']:
-        print(args['year_from'])
+        data = filter_data_column_range(data, 'year', start=args['year_from'])
 
     if args['year_to']:
-        print(args['year_to'])
+        data = filter_data_column_range(data, 'year', end=args['year_to'])
 
     if args['regexp']:
         data = filter_data_column_contains(data, 'title', args['regexp'])
-
+    
     if args['genres']:
         genres = args['genres'].split('|')
         stacked_data = []
