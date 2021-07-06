@@ -92,7 +92,7 @@ def get_sorted_data(data: list, sort_by: str, reverse=True) -> list:
     list
         Sorted data stored in list of dicts
     """
-    return sorted(data, key=lambda k: k[sort_by], reverse=reverse)
+    return sorted(data, key=lambda k: (k[sort_by] is not None, k[sort_by]), reverse=reverse)
 
 
 def get_groupped_data(data: list,  group_by: str, agg_column: str, agg_function='mean') -> list:
@@ -245,6 +245,75 @@ def split_data_column(data: list, column: str, new_column: str, old_col_regex: s
     return data
 
 
+def filter_data_column_contains(data: list, column: str, substring: str) -> list:
+    """Filter data in condition if column contains substring
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    column : str
+        Filtering column
+    substring : str
+        Substring of column value
+
+    Returns
+    -------
+    list
+        Filtered data stored in list of dicts
+    """
+    filtered_data = []
+
+    for row in data:
+        if re.search(substring, row[column]):
+            filtered_data.append(row)
+
+    return filtered_data
+
+
+def vertical_stack_data(data_top: list, data_bottom: list) -> list:
+    """Return vertically stacked data
+
+    Parameters
+    ----------
+    data_top : list
+        First data stored in list of dicts
+    data_bottom : list
+        Second data stored in list of dicts
+
+    Returns
+    -------
+    list
+        Stacked data
+    """
+    data_top.extend(data_bottom)
+    return data_top
+
+
+def data_sliced(data: list, start=None, end=None) -> list:
+    """Dataset safe slicing method
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+    start : [type], optional
+        Start index, by default None
+    end : [type], optional
+        End index, by default None
+
+    Returns
+    -------
+    list
+        Sliced data stored in list of dicts
+    """
+    if start:
+        data = data[start:]
+    if end:
+        data = data[:end]
+    return data
+
+
 def construct_argument_parser() -> dict:
     """Construct the argument parser and get the arguments
 
@@ -281,6 +350,7 @@ def main():
     # movies = get_categories_of_column(movies, 'genres', delimiter='|')
     # movies = get_factorized_data(movies, 'genres', delimiter='|')
 
+    # get year column from title
     movies = split_data_column(movies, 'title', 'year',
                                r'\s\(\d\d\d\d\)', r'\d\d\d\d')
 
@@ -290,17 +360,15 @@ def main():
     ratings = read_csv('data/ratings.csv')
     # data_info(ratings)
 
-    ratings = get_sorted_data(ratings, 'movieId')
+    ratings = get_sorted_data(ratings, 'movieId', reverse=False)
     ratings = get_groupped_data(ratings, 'movieId', 'rating')
 
     # merge datasets
-    merged_data = merge_two_datasets(movies, ratings, 'movieId')
-    # data_info(merged_data)
+    data = merge_two_datasets(movies, ratings, 'movieId')
+    data = get_sorted_data(data, 'rating', reverse=True)
+    # data_info(data)
 
-    print_data_csv(merged_data, n_rows=args['topN'])
-
-    if args['genres']:
-        print(args['genres'])
+    # print_data_csv(data, n_rows=args['topN'])
 
     if args['year_from']:
         print(args['year_from'])
@@ -310,6 +378,19 @@ def main():
 
     if args['regexp']:
         print(args['regexp'])
+
+    if args['genres']:
+        genres = args['genres'].split('|')
+        stacked_data = []
+        for genre in genres:
+            stacked_data.extend(
+                data_sliced(
+                    filter_data_column_contains(data, 'genres', genre),
+                    end=args['topN'])
+                )
+        print_data_csv(stacked_data)
+    else:
+        print_data_csv(data, n_rows=args['topN'])
 
 
 if __name__ == "__main__":
