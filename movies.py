@@ -99,6 +99,38 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
         log.exception(e)
 
 
+def get_columns(data: list) -> list:
+    """Get column names of data
+
+    Parameters
+    ----------
+    data : list
+        Data stored in list of dicts
+
+    Returns
+    -------
+    list
+        List of column names
+    """
+    return data[0].keys()
+
+
+def get_shape(data: list) -> tuple:
+    """Get shape of data
+
+    Parameters
+    ----------
+    data : list
+        Dat stored in list of dicts
+
+    Returns
+    -------
+    tuple
+        tuple of number of rows and columns
+    """
+    return (len(data[0].keys()), len(data))
+
+
 def data_info(data: list) -> str:
     """Print data summary info
 
@@ -107,8 +139,9 @@ def data_info(data: list) -> str:
     data : list
         Data stored in list of dicts
     """
-    cols = list(data[0].keys())
-    return f'cols: {cols}, shape: {(len(cols), len(data))}'
+    cols = get_columns(data)
+    shape = get_shape(data)
+    return f'cols: {cols}, shape: {shape}'
 
 
 def get_sorted_data(data: list, sort_by: str, reverse=True) -> list:
@@ -178,17 +211,20 @@ def merge_two_datasets(data_left: list, data_right: list, join_on: str) -> list:
     list
         Merged data stored in list of dicts
     """
-    # data right columns with None values in case when right table don`t match left
-    columns_right = list(data_right[0])
-    columns_right.remove(join_on)
-    right_none = dict.fromkeys(columns_right, None)
+    # get data right columns with None values in case when right table don`t match with left
+    columns_right = data_right[0].keys()
+    right_none = {e:None for e in columns_right if e != join_on}
+    log.debug(f'right data with none: {right_none}')
 
     merged_data = []
+    data_r_start = 0
     for row_left in data_left:
         merged_row = {**row_left, **right_none}
-        for row_right in data_right:
-            if row_left[join_on] == row_right[join_on]:
-                merged_row = {**row_left, **row_right}
+        # log.debug(f'merged row: {merged_row}')
+        for i in range(data_r_start, len(data_right)):
+            if row_left[join_on] == data_right[i][join_on]:
+                merged_row = {**row_left, **data_right[i]}
+                data_r_start = i
                 break
         merged_data.append(merged_row)
 

@@ -1,38 +1,39 @@
-11:24:56 - INFO - Start
-11:24:56 - INFO - constructing argument parser
-11:24:56 - INFO - Done!
-11:24:56 - DEBUG - arguments: {'topN': 100, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': None}
-11:24:56 - INFO - reading movies.csv
-11:24:56 - INFO - Done!
-11:24:56 - DEBUG - cols: ['movieId', 'title', 'genres'], shape: (3, 9742)
-11:24:56 - INFO - splitting title to year
-11:24:56 - INFO - Done!
-11:24:56 - DEBUG - cols: ['movieId', 'title', 'genres', 'year'], shape: (4, 9742)
-11:24:56 - INFO - sorting movies by movieId
-11:24:56 - INFO - Done!
-11:24:56 - INFO - reading ratings.csv
-11:24:57 - INFO - Done!
-11:24:57 - DEBUG - cols: ['userId', 'movieId', 'rating', 'timestamp'], shape: (4, 100836)
-11:24:57 - INFO - sorting ratings by movieId
-11:24:57 - INFO - Done!
-11:24:57 - INFO - groupping ratings by movieId
-11:24:58 - INFO - Done!
-11:24:58 - DEBUG - cols: ['movieId', 'rating'], shape: (2, 9724)
-11:24:58 - INFO - merging movies and ratings
-11:25:11 - INFO - Done!
-11:25:11 - DEBUG - cols: ['movieId', 'title', 'genres', 'year', 'rating'], shape: (5, 9742)
-11:25:11 - INFO - sorting data by rating
-11:25:11 - INFO - Done!
-11:25:11 - INFO - filtering data by year_from
-11:25:11 - INFO - Done!
-11:25:11 - DEBUG - cols: ['movieId', 'title', 'genres', 'year', 'rating'], shape: (5, 8166)
-11:25:11 - INFO - filtering data by year_to
-11:25:11 - INFO - Done!
-11:25:11 - DEBUG - cols: ['movieId', 'title', 'genres', 'year', 'rating'], shape: (5, 6477)
-11:25:11 - INFO - working with Animation
-11:25:11 - INFO - Animation genre added to output
-11:25:11 - INFO - working with Comedy
-11:25:11 - INFO - Comedy genre added to output
-11:25:11 - INFO - result printed
-11:25:11 - DEBUG - cols: ['movieId', 'title', 'genres', 'year', 'rating'], shape: (5, 200)
-11:25:11 - INFO - Finish in 15.3592 secs
+12:58:04 - INFO - Start
+12:58:04 - INFO - constructing argument parser
+12:58:04 - INFO - Done!
+12:58:04 - DEBUG - arguments: {'topN': 100, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': None}
+12:58:04 - INFO - reading movies.csv
+12:58:04 - INFO - Done!
+12:58:04 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres']), shape: (3, 9742)
+12:58:04 - INFO - splitting title to year
+12:58:04 - INFO - Done!
+12:58:04 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 9742)
+12:58:04 - INFO - sorting movies by movieId
+12:58:04 - INFO - Done!
+12:58:04 - INFO - reading ratings.csv
+12:58:04 - INFO - Done!
+12:58:04 - DEBUG - cols: dict_keys(['userId', 'movieId', 'rating', 'timestamp']), shape: (4, 100836)
+12:58:04 - INFO - sorting ratings by movieId
+12:58:05 - INFO - Done!
+12:58:05 - INFO - groupping ratings by movieId
+12:58:06 - INFO - Done!
+12:58:06 - DEBUG - cols: dict_keys(['movieId', 'rating']), shape: (2, 9724)
+12:58:06 - INFO - merging movies and ratings
+12:58:06 - DEBUG - right data with none: {'rating': None}
+12:58:06 - INFO - Done!
+12:58:06 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 9742)
+12:58:06 - INFO - sorting data by rating
+12:58:06 - INFO - Done!
+12:58:06 - INFO - filtering data by year_from
+12:58:06 - INFO - Done!
+12:58:06 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 8166)
+12:58:06 - INFO - filtering data by year_to
+12:58:06 - INFO - Done!
+12:58:06 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 6477)
+12:58:06 - INFO - working with Animation
+12:58:06 - INFO - Animation genre added to output
+12:58:06 - INFO - working with Comedy
+12:58:06 - INFO - Comedy genre added to output
+12:58:06 - INFO - result printed
+12:58:06 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 200)
+12:58:06 - INFO - Finish in 2.2662 secs
