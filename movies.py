@@ -12,15 +12,15 @@ functions:
     * data_info - Print data summary info
     * get_sorted_data - Get sorted data by column and order
     * get_groupped_data - Group data by column and apply aggregation function
-    * merge_two_datasets - Merge Join two sorted datasets (tables) into one on unique key
+    * merged_data - Merge Join two sorted datasets (tables) into one on unique key
     * get_factorized_data - Factorize column of data which contains multiple categorical data by splitting it on list of categories
     * get_categories_of_column - Get list of unique categories of non-atomic column which contains multiple categorical values splitted by delimiter
-    * split_data_column - Split column of data and create new column by regular expression
-    * filter_data_column_contains - Filter data in condition if column contains substring
-    * filter_data_column_range - Filter data by slicing integer column
-    * vertical_stack_data - Return vertically stacked data
-    * data_sliced - Dataset safe slicing method
-    * construct_argument_parser - Construct the argument parser and get the arguments
+    * get_data_with_splitted_col - Split column of data and create new column by regular expression
+    * filtered_data_col_contains - Filter data in condition if column contains substring
+    * filtered_data_col_in_range - Filter data by slicing integer column
+    * stacked_data - Return vertically stacked data
+    * sliced_data - Dataset safe slicing method
+    * get_arguments - Construct the argument parser and get the arguments
     * main - the main function of the script
 """
 
@@ -200,7 +200,7 @@ def get_groupped_data(data: list,  group_by: str, agg_column: str, agg_function=
     return groupped_data
 
 
-def merge_two_datasets(data_left: list, data_right: list, join_on: str) -> list:
+def merged_data(data_left: list, data_right: list, join_on: str) -> list:
     """Merge Join two sorted datasets (tables) into one on unique key
 
     Parameters
@@ -289,7 +289,7 @@ def get_categories_of_column(data: list, column: str, delimiter=',') -> list:
     return categories
 
 
-def split_data_column(data: list, column: str, new_column: str, old_col_regex: str, new_col_regex: str) -> list:
+def get_data_with_splitted_col(data: list, column: str, new_column: str, old_col_regex: str, new_col_regex: str) -> list:
     """Split column of data and create new column by regular expression
 
     Parameters
@@ -321,7 +321,7 @@ def split_data_column(data: list, column: str, new_column: str, old_col_regex: s
     return data
 
 
-def filter_data_column_contains(data: list, column: str, substring: str) -> list:
+def filtered_data_col_contains(data: list, column: str, substring: str) -> list:
     """Filter data in condition if column contains substring
 
     Parameters
@@ -347,7 +347,7 @@ def filter_data_column_contains(data: list, column: str, substring: str) -> list
     return filtered_data
 
 
-def filter_data_column_range(data: list, column: str, start=None, end=None) -> list:
+def filtered_data_col_in_range(data: list, column: str, start=None, end=None) -> list:
     """Filter data by slicing integer column
 
     Parameters
@@ -399,7 +399,7 @@ def filter_data_column_range(data: list, column: str, start=None, end=None) -> l
     return filtered_data
 
 
-def vertical_stack_data(data_top: list, data_bottom: list) -> list:
+def stacked_data(data_top: list, data_bottom: list) -> list:
     """Return vertically stacked data
 
     Parameters
@@ -418,7 +418,7 @@ def vertical_stack_data(data_top: list, data_bottom: list) -> list:
     return data_top
 
 
-def data_sliced(data: list, start=None, end=None) -> list:
+def sliced_data(data: list, start=None, end=None) -> list:
     """Dataset safe slicing method
 
     Parameters
@@ -442,7 +442,7 @@ def data_sliced(data: list, start=None, end=None) -> list:
     return data
 
 
-def construct_argument_parser() -> dict:
+def get_arguments() -> dict:
     """Construct the argument parser and get the arguments
 
     Returns
@@ -477,7 +477,7 @@ def main():
     
     # construct args
     log.info('constructing argument parser')
-    args = construct_argument_parser()
+    args = get_arguments()
     log.info('Done!')
     log.debug(f'arguments: {args}')
     
@@ -489,7 +489,7 @@ def main():
 
     # get year column from title
     log.info('splitting title to year')
-    movies = split_data_column(movies, 'title', 'year',
+    movies = get_data_with_splitted_col(movies, 'title', 'year',
                                r'\s\(\d\d\d\d\)', r'\d\d\d\d')
     log.info('Done!')
     log.debug(data_info(movies))
@@ -518,7 +518,7 @@ def main():
 
     # merge data
     log.info('merging movies and ratings')
-    data = merge_two_datasets(movies, ratings, 'movieId')
+    data = merged_data(movies, ratings, 'movieId')
     log.info('Done!')
     log.debug(data_info(data))
     
@@ -529,19 +529,19 @@ def main():
     
     if args['year_from']:
         log.info('filtering data by year_from')
-        data = filter_data_column_range(data, 'year', start=args['year_from'])
+        data = filtered_data_col_in_range(data, 'year', start=args['year_from'])
         log.info('Done!')
         log.debug(data_info(data))
 
     if args['year_to']:
         log.info('filtering data by year_to')
-        data = filter_data_column_range(data, 'year', end=args['year_to'])
+        data = filtered_data_col_in_range(data, 'year', end=args['year_to'])
         log.info('Done!')
         log.debug(data_info(data))
 
     if args['regexp']:
         log.info('filtering data by regexp')
-        data = filter_data_column_contains(data, 'title', args['regexp'])
+        data = filtered_data_col_contains(data, 'title', args['regexp'])
         log.info('Done!')
         log.debug(data_info(data))
     
@@ -551,8 +551,8 @@ def main():
         for genre in genres:
             log.info(f'working with {genre}')
             stacked_data.extend(
-                data_sliced(
-                    filter_data_column_contains(data, 'genres', genre),
+                sliced_data(
+                    filtered_data_col_contains(data, 'genres', genre),
                     end=args['topN'])
                 )
             log.info(f'{genre} genre added to output')
