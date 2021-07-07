@@ -459,14 +459,18 @@ def main():
     movies = get_sorted_data(movies, 'movieId', reverse=False)
     log.info('Done!')
 
+    # read ratings.csv
     log.info('reading ratings.csv')
     ratings = read_csv(DATA_FOLDER_PATH + '/ratings.csv')
     log.info('Done!')
     log.debug(data_info(ratings))
 
+    # sort ratings
     log.info('sorting ratings by movieId')
     ratings = get_sorted_data(ratings, 'movieId', reverse=False)
     log.info('Done!')
+    
+    # group ratings
     log.info('groupping ratings by movieId')
     ratings = get_groupped_data(ratings, 'movieId', 'rating')
     log.info('Done!')
