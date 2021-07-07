@@ -472,11 +472,13 @@ def main():
     log.info('Done!')
     log.debug(data_info(ratings))
 
-    # merge datasets
+    # merge data
     log.info('merging movies and ratings')
     data = merge_two_datasets(movies, ratings, 'movieId')
     log.info('Done!')
     log.debug(data_info(data))
+    
+    # sort data
     log.info('sorting data by rating')
     data = get_sorted_data(data, 'rating', reverse=True)
     log.info('Done!')
