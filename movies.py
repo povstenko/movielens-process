@@ -432,6 +432,9 @@ def main():
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     datefmt='%H:%M:%S')
     log.info('Start')
+    # save start time for calculating
+    time_start = time.perf_counter()
+    
     # construct args
     log.info('constructing argument parser')
     args = construct_argument_parser()
@@ -514,7 +517,8 @@ def main():
         print_data_csv(data, n_rows=args['topN'])
         log.info('result printed')
     
-    log.info('Finish')
+    time_elapsed = time.perf_counter() - time_start
+    log.info(f'Finish in {time_elapsed:.4f} secs')
 
 
 if __name__ == "__main__":
