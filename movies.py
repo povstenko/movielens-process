@@ -30,6 +30,9 @@ from statistics import mean
 import re
 
 
+DATA_FOLDER_PATH = 'data'
+
+
 def read_csv(file_path: str, delimiter: str = ',') -> list:
     """Read data from CSV file and return it as a list
 
@@ -74,6 +77,8 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
     
     header = ''
     for k, v in data[0].items():
+        if delimiter in k:
+                k = f'"{k}"'
         header += delimiter + k
     header = header[1:]
     print(header)
@@ -81,6 +86,8 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
     for row in data:
         csv_row = ''
         for k, v in row.items():
+            if delimiter in v:
+                v = f'"{v}"'
             csv_row += delimiter + str(v)
         csv_row = csv_row[1:]
         print(csv_row)
@@ -417,12 +424,7 @@ def construct_argument_parser() -> dict:
 def main():
     args = construct_argument_parser()
 
-    # check if user don't pass any arguments
-    if not any(args.values()):
-        print('Pass arguments')
-        exit()
-
-    movies = read_csv('data/movies.csv')
+    movies = read_csv(DATA_FOLDER_PATH + '/movies.csv')
     # data_info(movies)
     # movies = get_categories_of_column(movies, 'genres', delimiter='|')
     # movies = get_factorized_data(movies, 'genres', delimiter='|')
@@ -434,7 +436,7 @@ def main():
     movies = get_sorted_data(movies, 'movieId', reverse=False)
     # print_data_csv(movies, n_rows=5)
 
-    ratings = read_csv('data/ratings.csv')
+    ratings = read_csv(DATA_FOLDER_PATH + '/ratings.csv')
     # data_info(ratings)
 
     ratings = get_sorted_data(ratings, 'movieId', reverse=False)
