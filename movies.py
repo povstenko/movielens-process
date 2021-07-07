@@ -24,10 +24,13 @@ functions:
 
 # import the necessary packages
 import csv
+import re
+import time
 import argparse
+import logging as log
 from itertools import groupby
 from statistics import mean
-import re
+
 
 
 DATA_FOLDER_PATH = 'data'
@@ -69,31 +72,34 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
     n_rows : int, optional
         Number of rows to display, by default None
     """
-    if n_rows and len(data) >= n_rows:
-        data = data[:n_rows]
+    try:
+        if n_rows and len(data) >= n_rows:
+            data = data[:n_rows]
 
-    if len(data) == 0:
-        return 0
-    
-    header = ''
-    for k, v in data[0].items():
-        if delimiter in k:
-                k = f'"{k}"'
-        header += delimiter + k
-    header = header[1:]
-    print(header)
+        if len(data) == 0:
+            return 0
+        
+        header = ''
+        for k, v in data[0].items():
+            if type(k) == str and delimiter in k:
+                    k = f'"{k}"'
+            header += delimiter + k
+        header = header[1:]
+        print(header)
 
-    for row in data:
-        csv_row = ''
-        for k, v in row.items():
-            if delimiter in v:
-                v = f'"{v}"'
-            csv_row += delimiter + str(v)
-        csv_row = csv_row[1:]
-        print(csv_row)
+        for row in data:
+            csv_row = ''
+            for k, v in row.items():
+                if type(v) == str and delimiter in v:
+                    v = f'"{v}"'
+                csv_row += delimiter + str(v)
+            csv_row = csv_row[1:]
+            print(csv_row)
+    except Exception as e:
+        log.exception(e)
 
 
-def data_info(data: list) -> None:
+def data_info(data: list) -> str:
     """Print data summary info
 
     Parameters
@@ -102,9 +108,7 @@ def data_info(data: list) -> None:
         Data stored in list of dicts
     """
     cols = list(data[0].keys())
-    print(f'Columns: {cols} \
-        \nNumber of columns: {len(cols)} \
-        \nNumber of rows: {len(data)}\n')
+    return f'cols: {cols}, shape: {(len(cols), len(data))}'
 
 
 def get_sorted_data(data: list, sort_by: str, reverse=True) -> list:
@@ -422,52 +426,95 @@ def construct_argument_parser() -> dict:
 
 
 def main():
+    log.basicConfig(level=log.DEBUG,
+                    filename='app.log',
+                    filemode='w',
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%H:%M:%S')
+    log.info('Start')
+    # construct args
+    log.info('constructing argument parser')
     args = construct_argument_parser()
-
+    log.info('Done!')
+    log.debug(f'arguments: {args}')
+    
+    # read movies.csv
+    log.info('reading movies.csv')
     movies = read_csv(DATA_FOLDER_PATH + '/movies.csv')
-    # data_info(movies)
-    # movies = get_categories_of_column(movies, 'genres', delimiter='|')
-    # movies = get_factorized_data(movies, 'genres', delimiter='|')
+    log.info('Done!')
+    log.debug(data_info(movies))
 
     # get year column from title
+    log.info('splitting title to year')
     movies = split_data_column(movies, 'title', 'year',
                                r'\s\(\d\d\d\d\)', r'\d\d\d\d')
+    log.info('Done!')
+    log.debug(data_info(movies))
 
+    # sort movies
+    log.info('sorting movies by movieId')
     movies = get_sorted_data(movies, 'movieId', reverse=False)
-    # print_data_csv(movies, n_rows=5)
+    log.info('Done!')
 
+    log.info('reading ratings.csv')
     ratings = read_csv(DATA_FOLDER_PATH + '/ratings.csv')
-    # data_info(ratings)
+    log.info('Done!')
+    log.debug(data_info(ratings))
 
+    log.info('sorting ratings by movieId')
     ratings = get_sorted_data(ratings, 'movieId', reverse=False)
+    log.info('Done!')
+    log.info('groupping ratings by movieId')
     ratings = get_groupped_data(ratings, 'movieId', 'rating')
+    log.info('Done!')
+    log.debug(data_info(ratings))
 
     # merge datasets
+    log.info('merging movies and ratings')
     data = merge_two_datasets(movies, ratings, 'movieId')
+    log.info('Done!')
+    log.debug(data_info(data))
+    log.info('sorting data by rating')
     data = get_sorted_data(data, 'rating', reverse=True)
-    # data_info(data)
+    log.info('Done!')
     
     if args['year_from']:
+        log.info('filtering data by year_from')
         data = filter_data_column_range(data, 'year', start=args['year_from'])
+        log.info('Done!')
+        log.debug(data_info(data))
 
     if args['year_to']:
+        log.info('filtering data by year_to')
         data = filter_data_column_range(data, 'year', end=args['year_to'])
+        log.info('Done!')
+        log.debug(data_info(data))
 
     if args['regexp']:
+        log.info('filtering data by regexp')
         data = filter_data_column_contains(data, 'title', args['regexp'])
+        log.info('Done!')
+        log.debug(data_info(data))
     
     if args['genres']:
         genres = args['genres'].split('|')
         stacked_data = []
         for genre in genres:
+            log.info(f'working with {genre}')
             stacked_data.extend(
                 data_sliced(
                     filter_data_column_contains(data, 'genres', genre),
                     end=args['topN'])
                 )
+            log.info(f'{genre} genre added to output')
         print_data_csv(stacked_data)
+        log.info('result printed')
+        log.debug(data_info(stacked_data))
     else:
         print_data_csv(data, n_rows=args['topN'])
+        log.info('result printed')
+    
+    log.info('Finish')
 
 
 if __name__ == "__main__":
