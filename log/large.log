@@ -1,0 +1,38 @@
+13:41:41 - INFO - Start
+13:41:41 - INFO - constructing argument parser
+13:41:41 - INFO - Done!
+13:41:41 - DEBUG - arguments: {'topN': 100, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': None}
+13:41:41 - INFO - reading movies.csv
+13:41:42 - INFO - Done!
+13:41:42 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres']), shape: (3, 58098)
+13:41:42 - INFO - splitting title to year
+13:41:42 - INFO - Done!
+13:41:42 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 58098)
+13:41:42 - INFO - sorting movies by movieId
+13:41:42 - INFO - Done!
+13:41:42 - INFO - reading ratings.csv
+13:44:32 - INFO - Done!
+13:44:32 - DEBUG - cols: dict_keys(['userId', 'movieId', 'rating', 'timestamp']), shape: (4, 27753444)
+13:44:32 - INFO - sorting ratings by movieId
+13:49:42 - INFO - Done!
+13:49:42 - INFO - groupping ratings by movieId
+13:59:16 - INFO - Done!
+13:59:16 - DEBUG - cols: dict_keys(['movieId', 'rating']), shape: (2, 53889)
+13:59:16 - INFO - merging movies and ratings
+14:00:23 - INFO - Done!
+14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 58098)
+14:00:23 - INFO - sorting data by rating
+14:00:23 - INFO - Done!
+14:00:23 - INFO - filtering data by year_from
+14:00:23 - INFO - Done!
+14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 41679)
+14:00:23 - INFO - filtering data by year_to
+14:00:23 - INFO - Done!
+14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 25987)
+14:00:23 - INFO - working with Animation
+14:00:23 - INFO - Animation genre added to output
+14:00:23 - INFO - working with Comedy
+14:00:23 - INFO - Comedy genre added to output
+14:00:23 - INFO - result printed
+14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 200)
+14:00:23 - INFO - Finish in 1122.2022 secs

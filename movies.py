@@ -7,6 +7,8 @@ functions:
 
     * read_csv - Read data from CSV file and return it as a list
     * print_data_csv - Print data in csv format
+    * get_columns - Get column names of data
+    * get_shape - Get number of rows and columns of data
     * data_info - Print data summary info
     * get_sorted_data - Get sorted data by column and order
     * get_groupped_data - Group data by column and apply aggregation function
@@ -22,6 +24,7 @@ functions:
     * main - the main function of the script
 """
 
+
 # import the necessary packages
 import csv
 import re
@@ -32,11 +35,10 @@ from itertools import groupby
 from statistics import mean
 
 
+DATA_FOLDER_PATH = 'data/ml-latest-small/'
 
-DATA_FOLDER_PATH = 'data'
 
-
-def read_csv(file_path: str, delimiter: str = ',') -> list:
+def read_csv(file_path: str, delimiter: str = ',', encoding='ascii') -> list:
     """Read data from CSV file and return it as a list
 
     Parameters
@@ -52,10 +54,12 @@ def read_csv(file_path: str, delimiter: str = ',') -> list:
         Data from file stored in list of dicts with column names as a keys
     """
     data = []
-    with open(file_path, newline='') as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=delimiter)
-        for row in reader:
-            data.append(row)
+    try:
+        with open(file_path, newline='') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=delimiter)
+            data = [row for row in reader]
+    except Exception as e:
+        log.exception(e)
 
     return data
 
@@ -79,18 +83,13 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
         if len(data) == 0:
             return 0
         
-        header = ''
-        for k, v in data[0].items():
-            if type(k) == str and delimiter in k:
-                    k = f'"{k}"'
-            header += delimiter + k
-        header = header[1:]
+        header = ','.join(get_columns(data))
         print(header)
 
         for row in data:
             csv_row = ''
             for k, v in row.items():
-                if type(v) == str and delimiter in v:
+                if delimiter in str(v):
                     v = f'"{v}"'
                 csv_row += delimiter + str(v)
             csv_row = csv_row[1:]
@@ -112,7 +111,14 @@ def get_columns(data: list) -> list:
     list
         List of column names
     """
-    return data[0].keys()
+    columns = []
+    try:
+        assert data[0]
+        columns = data[0].keys()
+    except Exception as e:
+        log.exception(e)
+    
+    return columns
 
 
 def get_shape(data: list) -> tuple:
@@ -128,7 +134,7 @@ def get_shape(data: list) -> tuple:
     tuple
         tuple of number of rows and columns
     """
-    return (len(data[0].keys()), len(data))
+    return (len(get_columns(data)), len(data))
 
 
 def data_info(data: list) -> str:
@@ -214,13 +220,11 @@ def merge_two_datasets(data_left: list, data_right: list, join_on: str) -> list:
     # get data right columns with None values in case when right table don`t match with left
     columns_right = data_right[0].keys()
     right_none = {e:None for e in columns_right if e != join_on}
-    log.debug(f'right data with none: {right_none}')
 
     merged_data = []
     data_r_start = 0
     for row_left in data_left:
         merged_row = {**row_left, **right_none}
-        # log.debug(f'merged row: {merged_row}')
         for i in range(data_r_start, len(data_right)):
             if row_left[join_on] == data_right[i][join_on]:
                 merged_row = {**row_left, **data_right[i]}
@@ -463,7 +467,7 @@ def construct_argument_parser() -> dict:
 
 def main():
     log.basicConfig(level=log.DEBUG,
-                    filename='app.log',
+                    filename='log/app.log',
                     filemode='w',
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     datefmt='%H:%M:%S')
@@ -479,7 +483,7 @@ def main():
     
     # read movies.csv
     log.info('reading movies.csv')
-    movies = read_csv(DATA_FOLDER_PATH + '/movies.csv')
+    movies = read_csv(DATA_FOLDER_PATH + 'movies.csv')
     log.info('Done!')
     log.debug(data_info(movies))
 
@@ -497,7 +501,7 @@ def main():
 
     # read ratings.csv
     log.info('reading ratings.csv')
-    ratings = read_csv(DATA_FOLDER_PATH + '/ratings.csv')
+    ratings = read_csv(DATA_FOLDER_PATH + 'ratings.csv')
     log.info('Done!')
     log.debug(data_info(ratings))
 
