@@ -12,6 +12,7 @@ functions:
     * data_info - Print data summary info
     * get_sorted_data - Get sorted data by column and order
     * get_groupped_data - Group data by column and apply aggregation function
+    * get_groupped_data_from_file - Returns froupped data from file
     * merged_data - Merge Join two sorted datasets (tables) into one on unique key
     * get_factorized_data - Factorize column of data which contains multiple categorical data by splitting it on list of categories
     * get_categories_of_column - Get list of unique categories of non-atomic column which contains multiple categorical values splitted by delimiter
@@ -38,7 +39,7 @@ from statistics import mean
 DATA_FOLDER_PATH = 'data/ml-latest-small/'
 
 
-def read_csv(file_path: str, delimiter: str=',', columns: list=None, encoding: str='ascii') -> list:
+def read_csv(file_path: str, delimiter: str = ',', columns: list = None, encoding: str = 'ascii') -> list:
     """Read data from CSV file and return it as a list
 
     Parameters
@@ -69,11 +70,11 @@ def read_csv(file_path: str, delimiter: str=',', columns: list=None, encoding: s
                 data = [row for row in reader]
     except Exception as e:
         log.exception(e)
-        
+
     return data
 
 
-def get_groupped_data_from_file(file_path: str, group_by: str, agg_col: str, delimiter :str=',') -> list:
+def get_groupped_data_from_file(file_path: str, group_by: str, agg_col: str, delimiter: str = ',') -> list:
     """Returns groupped data with two columns from file. Optimized algorithm 
     of reading and groupping with mean operations.
 
@@ -97,12 +98,12 @@ def get_groupped_data_from_file(file_path: str, group_by: str, agg_col: str, del
     try:
         with open(file_path, newline='') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=delimiter)
-            
-            group_vals = {} # {'groupby_col': [agg_vals]}
+
+            group_vals = {}  # {'groupby_col': [agg_vals]}
             for row in reader:
                 gr_val = row.get(group_by)
                 agg_val = float(row.get(agg_col))
-                
+
                 if gr_val in group_vals.keys():
                     group_vals[gr_val] += [agg_val]
                 else:
@@ -112,7 +113,6 @@ def get_groupped_data_from_file(file_path: str, group_by: str, agg_col: str, del
                 data.append({group_by: k, agg_col: round(sum(v)/len(v), 4)})
     except Exception as e:
         log.exception(e)
-        
 
     return data
 
@@ -135,7 +135,7 @@ def print_data_csv(data: list, delimiter=',', n_rows=None) -> None:
 
         if len(data) == 0:
             return 0
-        
+
         header = ','.join(get_columns(data))
         print(header)
 
@@ -170,7 +170,7 @@ def get_columns(data: list) -> list:
         columns = data[0].keys()
     except Exception as e:
         log.exception(e)
-    
+
     return columns
 
 
@@ -272,7 +272,7 @@ def merged_data(data_left: list, data_right: list, join_on: str) -> list:
     """
     # get data right columns with None values in case when right table don`t match with left
     columns_right = data_right[0].keys()
-    right_none = {e:None for e in columns_right if e != join_on}
+    right_none = {e: None for e in columns_right if e != join_on}
 
     merged_data = []
     data_r_start = 0
@@ -421,15 +421,15 @@ def filtered_data_col_in_range(data: list, column: str, start=None, end=None) ->
         Filtered data stored in list of dict
     """
     filtered_data = []
-    
+
     if start and end:
         if start > end:
             return None
-        
+
         for row in data:
             if not row[column]:
                 continue
-            
+
             val = int(row[column])
             if start >= val and val <= end:
                 filtered_data.append(row)
@@ -437,19 +437,19 @@ def filtered_data_col_in_range(data: list, column: str, start=None, end=None) ->
         for row in data:
             if not row[column]:
                 continue
-            
+
             if start <= int(row[column]):
                 filtered_data.append(row)
     elif end:
         for row in data:
             if not row[column]:
                 continue
-            
+
             if int(row[column]) <= end:
                 filtered_data.append(row)
     else:
-        filtered_data = data
-        
+        return data
+
     return filtered_data
 
 
@@ -528,13 +528,13 @@ def main():
     log.info('Start')
     # save start time for calculating
     time_start = time.perf_counter()
-    
+
     # construct args
     log.info('constructing argument parser')
     args = get_arguments()
     log.info('Done!')
     log.debug(f'arguments: {args}')
-    
+
     # read movies.csv
     log.info('reading movies.csv')
     movies = read_csv(DATA_FOLDER_PATH + 'movies.csv')
@@ -544,7 +544,7 @@ def main():
     # get year column from title
     log.info('splitting title to year')
     movies = get_data_with_splitted_col(movies, 'title', 'year',
-                               r'\s\(\d\d\d\d\)', r'\d\d\d\d')
+                                        r'\s\(\d\d\d\d\)', r'\d\d\d\d')
     log.info('Done!')
     log.debug(data_info(movies))
 
@@ -555,7 +555,8 @@ def main():
 
     # read ratings.csv
     log.info('reading ratings.csv')
-    ratings = get_groupped_data_from_file(DATA_FOLDER_PATH + 'ratings.csv', 'movieId', 'rating')
+    ratings = get_groupped_data_from_file(
+        DATA_FOLDER_PATH + 'ratings.csv', 'movieId', 'rating')
     # ratings = read_csv(DATA_FOLDER_PATH + 'ratings.csv', columns=['movieId','rating'])
     log.info('Done!')
     log.debug(data_info(ratings))
@@ -564,7 +565,7 @@ def main():
     log.info('sorting ratings by movieId')
     ratings = get_sorted_data(ratings, 'movieId', reverse=False)
     log.info('Done!')
-    
+
     # group ratings
     # log.info('groupping ratings by movieId')
     # ratings = get_groupped_data(ratings, 'movieId', 'rating')
@@ -576,30 +577,39 @@ def main():
     data = merged_data(movies, ratings, 'movieId')
     log.info('Done!')
     log.debug(data_info(data))
-    
+
     # sort data
     log.info('sorting data by rating')
     data = get_sorted_data(data, 'rating', reverse=True)
     log.info('Done!')
-    
-    if args['year_from']:
-        log.info('filtering data by year_from')
-        data = filtered_data_col_in_range(data, 'year', start=args['year_from'])
-        log.info('Done!')
-        log.debug(data_info(data))
 
-    if args['year_to']:
-        log.info('filtering data by year_to')
-        data = filtered_data_col_in_range(data, 'year', end=args['year_to'])
-        log.info('Done!')
-        log.debug(data_info(data))
+    log.info('filtering data by year_from and year_to')
+    data = filtered_data_col_in_range(
+        data, 'year',
+        start=args['year_from'],
+        end=args['year_to']
+    )
+    log.info('Done!')
+    log.debug(data_info(data))
+
+    # if args['year_from']:
+    #     log.info('filtering data by year_from')
+    #     data = filtered_data_col_in_range(data, 'year', start=args['year_from'])
+    #     log.info('Done!')
+    #     log.debug(data_info(data))
+
+    # if args['year_to']:
+    #     log.info('filtering data by year_to')
+    #     data = filtered_data_col_in_range(data, 'year', end=args['year_to'])
+    #     log.info('Done!')
+    #     log.debug(data_info(data))
 
     if args['regexp']:
         log.info('filtering data by regexp')
         data = filtered_data_col_contains(data, 'title', args['regexp'])
         log.info('Done!')
         log.debug(data_info(data))
-    
+
     if args['genres']:
         genres = args['genres'].split('|')
         stacked_data = []
@@ -609,7 +619,7 @@ def main():
                 sliced_data(
                     filtered_data_col_contains(data, 'genres', genre),
                     end=args['topN'])
-                )
+            )
             log.info(f'{genre} genre added to output')
         print_data_csv(stacked_data)
         log.info('result printed')
@@ -617,7 +627,7 @@ def main():
     else:
         print_data_csv(data, n_rows=args['topN'])
         log.info('result printed')
-    
+
     time_elapsed = time.perf_counter() - time_start
     log.info(f'Finish in {time_elapsed:.4f} secs')
 
