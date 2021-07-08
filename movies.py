@@ -38,7 +38,7 @@ from statistics import mean
 DATA_FOLDER_PATH = 'data/ml-latest-small/'
 
 
-def read_csv(file_path: str, delimiter: str = ',', encoding='ascii') -> list:
+def read_csv(file_path: str, delimiter: str=',', columns: list=None, encoding: str='ascii') -> list:
     """Read data from CSV file and return it as a list
 
     Parameters
@@ -47,6 +47,10 @@ def read_csv(file_path: str, delimiter: str = ',', encoding='ascii') -> list:
         File name of csv file
     delimiter : str, optional
         Delimiter of csv file, by default ','
+    columns : list, optional
+        Columns to read from file, by default None
+    encoding : str, optional
+        File encoding method, by default 'ascii'
 
     Returns
     -------
@@ -57,9 +61,58 @@ def read_csv(file_path: str, delimiter: str = ',', encoding='ascii') -> list:
     try:
         with open(file_path, newline='') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=delimiter)
-            data = [row for row in reader]
+            if columns:
+                for row in reader:
+                    data_row = {col: row.get(col) for col in columns}
+                    data.append(data_row)
+            else:
+                data = [row for row in reader]
     except Exception as e:
         log.exception(e)
+        
+    return data
+
+
+def get_groupped_data_from_file(file_path: str, group_by: str, agg_col: str, delimiter :str=',') -> list:
+    """Returns groupped data with two columns from file. Optimized algorithm 
+    of reading and groupping with mean operations.
+
+    Parameters
+    ----------
+    file_path : str
+        File name to read
+    group_by : str
+        Group by column name
+    agg_col : str
+        Aggregation column name
+    delimiter : str, optional
+        Delimiter of csv file, by default ','
+
+    Returns
+    -------
+    list
+        Data stored in list of dicts
+    """
+    data = []
+    try:
+        with open(file_path, newline='') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=delimiter)
+            
+            group_vals = {} # {'groupby_col': [agg_vals]}
+            for row in reader:
+                gr_val = row.get(group_by)
+                agg_val = float(row.get(agg_col))
+                
+                if gr_val in group_vals.keys():
+                    group_vals[gr_val] += [agg_val]
+                else:
+                    group_vals[gr_val] = [agg_val]
+
+            for k, v in group_vals.items():
+                data.append({group_by: k, agg_col: round(sum(v)/len(v), 4)})
+    except Exception as e:
+        log.exception(e)
+        
 
     return data
 
@@ -194,7 +247,7 @@ def get_groupped_data(data: list,  group_by: str, agg_column: str, agg_function=
     for k, v in groupby(data, key=lambda x: x[group_by]):
         group_row = {group_by: k}
         agg_vals = [float(i[agg_column]) for i in v]
-        group_row[agg_column] = round(mean(agg_vals), 1)
+        group_row[agg_column] = round(mean(agg_vals), 4)
         groupped_data.append(group_row)
 
     return groupped_data
@@ -315,6 +368,7 @@ def get_data_with_splitted_col(data: list, column: str, new_column: str, old_col
             new_col_val = re.search(new_col_regex, row[column]).group()
         else:
             new_col_val = None
+            log.warning(f'Can`t split column `{column}` in row: {row}')
         row[new_column] = new_col_val
         row[column] = re.sub(old_col_regex, '', row[column])
 
@@ -501,7 +555,8 @@ def main():
 
     # read ratings.csv
     log.info('reading ratings.csv')
-    ratings = read_csv(DATA_FOLDER_PATH + 'ratings.csv')
+    ratings = get_groupped_data_from_file(DATA_FOLDER_PATH + 'ratings.csv', 'movieId', 'rating')
+    # ratings = read_csv(DATA_FOLDER_PATH + 'ratings.csv', columns=['movieId','rating'])
     log.info('Done!')
     log.debug(data_info(ratings))
 
@@ -511,10 +566,10 @@ def main():
     log.info('Done!')
     
     # group ratings
-    log.info('groupping ratings by movieId')
-    ratings = get_groupped_data(ratings, 'movieId', 'rating')
-    log.info('Done!')
-    log.debug(data_info(ratings))
+    # log.info('groupping ratings by movieId')
+    # ratings = get_groupped_data(ratings, 'movieId', 'rating')
+    # log.info('Done!')
+    # log.debug(data_info(ratings))
 
     # merge data
     log.info('merging movies and ratings')
