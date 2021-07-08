@@ -547,6 +547,23 @@ def main():
                                         r'\s\(\d\d\d\d\)', r'\d\d\d\d')
     log.info('Done!')
     log.debug(data_info(movies))
+    
+    # filter by year
+    log.info('filtering data by year_from and year_to')
+    movies = filtered_data_col_in_range(
+        movies, 'year',
+        start=args['year_from'],
+        end=args['year_to']
+    )
+    log.info('Done!')
+    log.debug(data_info(movies))
+    
+    # filter by title
+    if args['regexp']:
+        log.info('filtering data by regexp')
+        movies = filtered_data_col_contains(movies, 'title', args['regexp'])
+        log.info('Done!')
+        log.debug(data_info(movies))
 
     # sort movies
     log.info('sorting movies by movieId')
@@ -557,7 +574,6 @@ def main():
     log.info('reading ratings.csv')
     ratings = get_groupped_data_from_file(
         DATA_FOLDER_PATH + 'ratings.csv', 'movieId', 'rating')
-    # ratings = read_csv(DATA_FOLDER_PATH + 'ratings.csv', columns=['movieId','rating'])
     log.info('Done!')
     log.debug(data_info(ratings))
 
@@ -565,12 +581,6 @@ def main():
     log.info('sorting ratings by movieId')
     ratings = get_sorted_data(ratings, 'movieId', reverse=False)
     log.info('Done!')
-
-    # group ratings
-    # log.info('groupping ratings by movieId')
-    # ratings = get_groupped_data(ratings, 'movieId', 'rating')
-    # log.info('Done!')
-    # log.debug(data_info(ratings))
 
     # merge data
     log.info('merging movies and ratings')
@@ -582,33 +592,6 @@ def main():
     log.info('sorting data by rating')
     data = get_sorted_data(data, 'rating', reverse=True)
     log.info('Done!')
-
-    log.info('filtering data by year_from and year_to')
-    data = filtered_data_col_in_range(
-        data, 'year',
-        start=args['year_from'],
-        end=args['year_to']
-    )
-    log.info('Done!')
-    log.debug(data_info(data))
-
-    # if args['year_from']:
-    #     log.info('filtering data by year_from')
-    #     data = filtered_data_col_in_range(data, 'year', start=args['year_from'])
-    #     log.info('Done!')
-    #     log.debug(data_info(data))
-
-    # if args['year_to']:
-    #     log.info('filtering data by year_to')
-    #     data = filtered_data_col_in_range(data, 'year', end=args['year_to'])
-    #     log.info('Done!')
-    #     log.debug(data_info(data))
-
-    if args['regexp']:
-        log.info('filtering data by regexp')
-        data = filtered_data_col_contains(data, 'title', args['regexp'])
-        log.info('Done!')
-        log.debug(data_info(data))
 
     if args['genres']:
         genres = args['genres'].split('|')

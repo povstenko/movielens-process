@@ -1,47 +1,47 @@
-10:49:00 - INFO - Start
-10:49:00 - INFO - constructing argument parser
-10:49:00 - INFO - Done!
-10:49:00 - DEBUG - arguments: {'topN': 100, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': '\\d'}
-10:49:00 - INFO - reading movies.csv
-10:49:00 - INFO - Done!
-10:49:00 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres']), shape: (3, 9742)
-10:49:00 - INFO - splitting title to year
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '40697', 'title': 'Babylon 5', 'genres': 'Sci-Fi'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '140956', 'title': 'Ready Player One', 'genres': 'Action|Sci-Fi|Thriller'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '143410', 'title': 'Hyena Road', 'genres': '(no genres listed)'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '147250', 'title': 'The Adventures of Sherlock Holmes and Doctor Watson', 'genres': '(no genres listed)'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '149334', 'title': 'Nocturnal Animals', 'genres': 'Drama|Thriller'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '156605', 'title': 'Paterson', 'genres': '(no genres listed)'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '162414', 'title': 'Moonlight', 'genres': 'Drama'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '167570', 'title': 'The OA', 'genres': '(no genres listed)'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '171495', 'title': 'Cosmos', 'genres': '(no genres listed)'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '171631', 'title': 'Maria Bamford: Old Baby', 'genres': '(no genres listed)'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '171891', 'title': 'Generation Iron 2', 'genres': '(no genres listed)'}
-10:49:00 - WARNING - Can`t split column `title` in row: {'movieId': '176601', 'title': 'Black Mirror', 'genres': '(no genres listed)'}
-10:49:00 - INFO - Done!
-10:49:00 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 9742)
-10:49:00 - INFO - sorting movies by movieId
-10:49:00 - INFO - Done!
-10:49:00 - INFO - reading ratings.csv
-10:49:01 - INFO - Done!
-10:49:01 - DEBUG - cols: dict_keys(['movieId', 'rating']), shape: (2, 9724)
-10:49:01 - INFO - sorting ratings by movieId
-10:49:01 - INFO - Done!
-10:49:01 - INFO - merging movies and ratings
-10:49:01 - INFO - Done!
-10:49:01 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 9742)
-10:49:01 - INFO - sorting data by rating
-10:49:01 - INFO - Done!
-10:49:01 - INFO - filtering data by year_from and year_to
-10:49:01 - INFO - Done!
-10:49:01 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 1653)
-10:49:01 - INFO - filtering data by regexp
-10:49:01 - INFO - Done!
-10:49:01 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 64)
-10:49:01 - INFO - working with Animation
-10:49:01 - INFO - Animation genre added to output
-10:49:01 - INFO - working with Comedy
-10:49:01 - INFO - Comedy genre added to output
-10:49:01 - INFO - result printed
-10:49:01 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 14)
-10:49:01 - INFO - Finish in 1.3771 secs
+12:37:04 - INFO - Start
+12:37:04 - INFO - constructing argument parser
+12:37:04 - INFO - Done!
+12:37:04 - DEBUG - arguments: {'topN': 100, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': '\\d'}
+12:37:04 - INFO - reading movies.csv
+12:37:04 - INFO - Done!
+12:37:04 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres']), shape: (3, 9742)
+12:37:04 - INFO - splitting title to year
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '40697', 'title': 'Babylon 5', 'genres': 'Sci-Fi'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '140956', 'title': 'Ready Player One', 'genres': 'Action|Sci-Fi|Thriller'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '143410', 'title': 'Hyena Road', 'genres': '(no genres listed)'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '147250', 'title': 'The Adventures of Sherlock Holmes and Doctor Watson', 'genres': '(no genres listed)'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '149334', 'title': 'Nocturnal Animals', 'genres': 'Drama|Thriller'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '156605', 'title': 'Paterson', 'genres': '(no genres listed)'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '162414', 'title': 'Moonlight', 'genres': 'Drama'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '167570', 'title': 'The OA', 'genres': '(no genres listed)'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '171495', 'title': 'Cosmos', 'genres': '(no genres listed)'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '171631', 'title': 'Maria Bamford: Old Baby', 'genres': '(no genres listed)'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '171891', 'title': 'Generation Iron 2', 'genres': '(no genres listed)'}
+12:37:04 - WARNING - Can`t split column `title` in row: {'movieId': '176601', 'title': 'Black Mirror', 'genres': '(no genres listed)'}
+12:37:04 - INFO - Done!
+12:37:04 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 9742)
+12:37:04 - INFO - filtering data by year_from and year_to
+12:37:04 - INFO - Done!
+12:37:04 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 1653)
+12:37:04 - INFO - filtering data by regexp
+12:37:04 - INFO - Done!
+12:37:04 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 64)
+12:37:04 - INFO - sorting movies by movieId
+12:37:04 - INFO - Done!
+12:37:04 - INFO - reading ratings.csv
+12:37:05 - INFO - Done!
+12:37:05 - DEBUG - cols: dict_keys(['movieId', 'rating']), shape: (2, 9724)
+12:37:05 - INFO - sorting ratings by movieId
+12:37:05 - INFO - Done!
+12:37:05 - INFO - merging movies and ratings
+12:37:05 - INFO - Done!
+12:37:05 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 64)
+12:37:05 - INFO - sorting data by rating
+12:37:05 - INFO - Done!
+12:37:05 - INFO - working with Animation
+12:37:05 - INFO - Animation genre added to output
+12:37:05 - INFO - working with Comedy
+12:37:05 - INFO - Comedy genre added to output
+12:37:05 - INFO - result printed
+12:37:05 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 14)
+12:37:05 - INFO - Finish in 0.9830 secs
