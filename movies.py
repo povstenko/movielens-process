@@ -99,7 +99,7 @@ def get_groupped_data_from_file(file_path: str, group_by: str, agg_col: str, del
         with open(file_path, newline='') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=delimiter)
 
-            group_vals = {}  # {'groupby_col': [agg_vals]}
+            group_vals = {}
             for row in reader:
                 gr_val = row.get(group_by)
                 agg_val = float(row.get(agg_col))

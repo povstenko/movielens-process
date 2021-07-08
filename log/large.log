@@ -1,38 +1,358 @@
-13:41:41 - INFO - Start
-13:41:41 - INFO - constructing argument parser
-13:41:41 - INFO - Done!
-13:41:41 - DEBUG - arguments: {'topN': 100, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': None}
-13:41:41 - INFO - reading movies.csv
-13:41:42 - INFO - Done!
-13:41:42 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres']), shape: (3, 58098)
-13:41:42 - INFO - splitting title to year
-13:41:42 - INFO - Done!
-13:41:42 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 58098)
-13:41:42 - INFO - sorting movies by movieId
-13:41:42 - INFO - Done!
-13:41:42 - INFO - reading ratings.csv
-13:44:32 - INFO - Done!
-13:44:32 - DEBUG - cols: dict_keys(['userId', 'movieId', 'rating', 'timestamp']), shape: (4, 27753444)
-13:44:32 - INFO - sorting ratings by movieId
-13:49:42 - INFO - Done!
-13:49:42 - INFO - groupping ratings by movieId
-13:59:16 - INFO - Done!
-13:59:16 - DEBUG - cols: dict_keys(['movieId', 'rating']), shape: (2, 53889)
-13:59:16 - INFO - merging movies and ratings
-14:00:23 - INFO - Done!
-14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 58098)
-14:00:23 - INFO - sorting data by rating
-14:00:23 - INFO - Done!
-14:00:23 - INFO - filtering data by year_from
-14:00:23 - INFO - Done!
-14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 41679)
-14:00:23 - INFO - filtering data by year_to
-14:00:23 - INFO - Done!
-14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 25987)
-14:00:23 - INFO - working with Animation
-14:00:23 - INFO - Animation genre added to output
-14:00:23 - INFO - working with Comedy
-14:00:23 - INFO - Comedy genre added to output
-14:00:23 - INFO - result printed
-14:00:23 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 200)
-14:00:23 - INFO - Finish in 1122.2022 secs
+17:25:58 - INFO - Start
+17:25:58 - INFO - constructing argument parser
+17:25:58 - INFO - Done!
+17:25:58 - DEBUG - arguments: {'topN': 100, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': '\\d'}
+17:25:58 - INFO - reading movies.csv
+17:25:59 - INFO - Done!
+17:25:59 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres']), shape: (3, 58098)
+17:25:59 - INFO - splitting title to year
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '32930', 'title': 'Category 6: Day of Destruction', 'genres': 'Action|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '40697', 'title': 'Babylon 5', 'genres': 'Sci-Fi'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '79607', 'title': 'Millions Game, The (Das Millionenspiel)', 'genres': 'Action|Drama|Sci-Fi|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '87442', 'title': 'Bicycle, Spoon, Apple (Bicicleta, cullera, poma)', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '112406', 'title': 'Brazil: In the Shadow of the Stadiums', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '113190', 'title': 'Slaying the Badger', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '115133', 'title': 'Tatort: Im Schmerz geboren', 'genres': 'Crime'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '123619', 'title': 'Terrible Joe Moran', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '125571', 'title': 'The Court-Martial of Jackie Robinson', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '125632', 'title': 'In Our Garden', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '125958', 'title': 'Stephen Fry In America - New World', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '126438', 'title': 'Two: The Story of Roman & Nyro', 'genres': 'Documentary|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '127005', 'title': 'A Year Along the Abandoned Road', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '128612', 'title': 'Body/Cialo', 'genres': 'Comedy|Drama|Mystery'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '128734', 'title': 'Polskie g�wno', 'genres': 'Comedy|Musical'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '129651', 'title': 'The Third Reich: The Rise & Fall', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '129697', 'title': 'La vendetta dei barbari', 'genres': 'Action|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '129705', 'title': 'My Own Man', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '129887', 'title': 'Moving Alan', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '130322', 'title': 'Zone 261', 'genres': 'Horror'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '130454', 'title': 'Michael Laudrup - en Fodboldspiller', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '130542', 'title': 'Honky', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '131198', 'title': 'Blueberry Hill', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '131225', 'title': 'Pleasure Palace', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '131280', 'title': 'Terror on the 40th Floor', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '131606', 'title': "My Boyfriend's Back", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '132000', 'title': 'One Night Only', 'genres': 'Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '132948', 'title': 'Doli Saja Ke Rakhna', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '133276', 'title': 'The Dead Lands', 'genres': 'Action'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '134254', 'title': "C'mon, Let's Live a Little", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '134908', 'title': 'For a Book of Dollars', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '135145', 'title': 'Bad Boys 3', 'genres': 'Action|Crime|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '135354', 'title': 'Twins from Texas', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '135522', 'title': 'The Moon and the Sun', 'genres': 'Action|Adventure|Fantasy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '135691', 'title': 'Se�orita Justice', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '136299', 'title': 'Red Victoria', 'genres': 'Comedy|Horror'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '136880', 'title': 'Vaastupurush', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '137284', 'title': "Sierra Leone's Refugee All Stars", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '137292', 'title': "L'uomo della carit�", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '137411', 'title': 'The Big Fall', 'genres': 'Action'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '137443', 'title': 'Wolves In The Snow', 'genres': 'Action|Crime|Drama|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '137599', 'title': 'Rosamunde Pilcher - September', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '137845', 'title': 'Amazon Falls', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '137990', 'title': 'Dark Tides', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '138042', 'title': 'The Ritual', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '138120', 'title': 'The Expedition', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '138518', 'title': 'Chinese Boxes', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '139596', 'title': 'Daniel?v sv?t', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '140129', 'title': 'The Near Room', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '140224', 'title': 'Filmage: The Story of Descendents/All', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '140377', 'title': 'About Sarah', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '140605', 'title': 'La steppa', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '140874', 'title': 'Swallows and Amazons', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '140956', 'title': 'Ready Player One', 'genres': 'Action|Sci-Fi|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '141442', 'title': 'Los tontos y los est�pidos', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '141507', 'title': 'Ride in a Pink Car', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '141708', 'title': 'Disaster Playground', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '141745', 'title': 'Nice Guy', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '141858', 'title': "OMG, I'm a Robot!", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '141930', 'title': 'KillerSaurus', 'genres': 'Horror|Sci-Fi'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '142490', 'title': 'Viva', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '142913', 'title': 'Ollaan vapaita', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '143410', 'title': 'Hyena Road', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '144054', 'title': 'Asphalt Angels', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '144528', 'title': 'Fakta Ladh Mhana', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '144726', 'title': 'Man Crazy', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '145650', 'title': 'Roger la Honte', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146010', 'title': 'Sentimentalnyy roman', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146082', 'title': 'Yedyanchi Jatra', 'genres': 'Children|Comedy|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146106', 'title': 'Dhadakebaaz', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146112', 'title': 'Ittefaq', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146344', 'title': 'El�m�lt� kaiken sain', 'genres': 'Comedy|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146364', 'title': 'Dil Kya Kare', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146370', 'title': 'Hogi Pyar Ki Jeet', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146429', 'title': 'Monk by Blood', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146463', 'title': 'I Am Syd Stone', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146475', 'title': 'Alone With People', 'genres': 'Comedy|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '146796', 'title': 'Le strelle nel fosso', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '147188', 'title': '38 Parrots', 'genres': 'Animation|Children'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '147250', 'title': 'The Adventures of Sherlock Holmes and Doctor Watson', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '147450', 'title': 'Amigo Undead', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '148093', 'title': 'The Republic ', 'genres': 'Action|Crime|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '148677', 'title': '?????? ?????????', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '149080', 'title': 'A Fare to Remember', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '149090', 'title': 'The Code', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '149296', 'title': 'Unlocking the Cage', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '149334', 'title': 'Nocturnal Animals', 'genres': 'Drama|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '149502', 'title': '101???', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '149715', 'title': 'S: Saigo no Keikan - Dakkan: Recovery of Our Future', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '149757', 'title': 'The Frog Prince', 'genres': 'Children'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '150020', 'title': 'Vrijdag', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '150655', 'title': 'Aimy in a Cage', 'genres': 'Drama|Fantasy|Sci-Fi'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '150657', 'title': 'Trophy Kids', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '150868', 'title': 'Jasne B??kitne Okna', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '150888', 'title': "Mr. Kuka's Advice", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '151307', 'title': 'The Lovers and the Despot', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '151517', 'title': 'Beauty and the Breast', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '151655', 'title': 'Hundra', 'genres': 'Adventure|Fantasy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '151693', 'title': 'Holy Hell', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '151955', 'title': 'Veljet', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '151967', 'title': 'Pyaar Tune Kya Kiya', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '152523', 'title': 'Vous �tes tr�s jolie, mademoiselle', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '152808', 'title': 'Main Madhuri Dixit Banna Chahti Hoon!', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '152814', 'title': 'Dhund: The Fog', 'genres': 'Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '152840', 'title': 'The Grave Digger', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '152884', 'title': 'Vaastu Shastra', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '153184', 'title': 'Vergeef me', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '153714', 'title': 'Vogelfrei', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '153967', 'title': 'Jew Like Me', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '153973', 'title': 'Langer Licht', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '154184', 'title': 'Family Film', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '154386', 'title': 'Normaal: Ik Kom Altied Weer Terug', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '154530', 'title': 'Recto / verso', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '154538', 'title': 'Sins of the mind', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '155121', 'title': 'Kshanam', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '155577', 'title': 'First Position', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '155593', 'title': "Pawn's Move", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '155621', 'title': 'If These Knishes Could Talk: The Story of the NY Accent', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '156175', 'title': 'Mapplethorpe: Look at the Pictures', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '156571', 'title': 'The Twin Girls of Sunset Street', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '156591', 'title': 'Absent Minded', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '156605', 'title': 'Paterson', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '157703', 'title': 'The Kid from Broken Gun', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '157787', 'title': '.hack Liminality: In the Case of Mai Minase', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '157789', 'title': '.hack Liminality In the Case of Yuki Aihara', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '157791', 'title': '.hack Liminality In the Case of Kyoko Tohno', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '158312', 'title': 'Citizen King', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '158870', 'title': 'The Monkey King the Legend Begins', 'genres': 'Action|Adventure|Fantasy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159125', 'title': "Anybody's Son Will Do", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159217', 'title': 'The Identity Theft of Mitch Mustain', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159257', 'title': '6A', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159259', 'title': 'The Serious Game', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159325', 'title': 'Fant', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159642', 'title': "It's Only Money", 'genres': 'Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159664', 'title': 'Freedom', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159674', 'title': 'Back Home', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159753', 'title': 'After Eden', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '159793', 'title': 'Art of the Prank', 'genres': 'Comedy|Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '160428', 'title': 'DEAD RISING : ENDGAME', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '160579', 'title': 'Friends and Romans', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '160676', 'title': 'Poor Devil', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '160724', 'title': 'They Will Have To Kill Us First', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '160880', 'title': 'Eat That Question: Frank Zappa in His Own Words', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '160886', 'title': 'Presenting Princess Shaw', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '161050', 'title': 'The Miki Howard Story', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '161300', 'title': 'Digital Dharma', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '161948', 'title': 'Tibetana', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162006', 'title': 'Gleason', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162154', 'title': 'Bazodee', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162224', 'title': 'El Bosco, el jard�n de los sue�os', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162414', 'title': 'Moonlight', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162704', 'title': 'California Winter', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162740', 'title': 'The Houses Are Full of Smoke', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162746', 'title': 'The Last Gold', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162832', 'title': 'The Wounded Angel', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '162886', 'title': "Scott Hall: Living on a Razor's Edge", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '163010', 'title': 'Bad Dad Rehab', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '163018', 'title': 'A Lovas�j�sz', 'genres': 'Adventure|Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '163567', 'title': 'MamaBoy', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '164051', 'title': 'The Space Between', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '164592', 'title': 'El pejesapo', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '164693', 'title': 'Lo Sound Desert', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '164705', 'title': 'Set the Thames on Fire', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165089', 'title': 'Dugma: The Button', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165237', 'title': 'Amber Alert', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165345', 'title': 'Pad Yatra: A Green Odyssey', 'genres': 'Adventure|Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165385', 'title': "The Adventures of Cinderella's Daughter", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165519', 'title': 'Always Faithful', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165699', 'title': 'Angel Has Fallen', 'genres': 'Action|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165747', 'title': 'Exchange', 'genres': 'Horror'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '165821', 'title': 'Rodnye (Close Relations)', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '166289', 'title': 'Allende en su laberinto', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '166651', 'title': 'D�nersen Isl?k �al', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '166775', 'title': 'Uno: The Movie', 'genres': 'Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '166862', 'title': "The Women's Balcony", 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '166942', 'title': 'Ulvova Myll�ri', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '167098', 'title': 'Dolpo Tulku - Heimkehr in den Himalaya', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '167570', 'title': 'The OA', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '167830', 'title': 'Freedom Road', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '167958', 'title': "Hitler's Olympics", 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '168278', 'title': 'Science Fiction Volume One: The Osiris Child', 'genres': 'Sci-Fi'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '168356', 'title': 'Bienvenido a Veraz', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '168546', 'title': 'Invention of Trust', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '168596', 'title': 'Secret Places', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '168648', 'title': 'Abbey Grace', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '168730', 'title': 'Mumford & Sons: We Wrote This Yesterday', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '168888', 'title': 'Third Guest', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '169004', 'title': 'American Sharia', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '169014', 'title': 'Red Wine in the Dark Night', 'genres': 'Romance|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '169230', 'title': 'Winning Favour', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '169240', 'title': 'Whn the day had no name', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '169656', 'title': 'The Glass Castle', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '170109', 'title': 'Blindpassasjer', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '170465', 'title': 'The Lost World of Communism', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '170719', 'title': 'Sequence Break', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '170745', 'title': '13 reasons why', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '171171', 'title': 'Jedi Junior High', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '171495', 'title': 'Cosmos', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '171507', 'title': 'Unspeakable Horrors: The Plan 9 Conspiracy', 'genres': 'Comedy|Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '171631', 'title': 'Maria Bamford: Old Baby', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '171753', 'title': 'Wet and Reckless', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '171891', 'title': 'Generation Iron 2', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '172557', 'title': 'Shivering Trunks', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '172673', 'title': 'Supermassive Black Holes', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '172739', 'title': '???? ?? ?????????', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '172915', 'title': 'Falling Skies', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '173191', 'title': 'Neither Wolf Nor Dog', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '173347', 'title': 'Philosophy: A Guide to Happiness', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '174039', 'title': 'Genesis', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '174447', 'title': 'A Gray State', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '174485', 'title': 'Salad Fingers', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '174707', 'title': 'Le Ride', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '174953', 'title': 'Mundo C�o', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '175163', 'title': 'Eli�n', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '175353', 'title': 'Abduction', 'genres': 'Drama|Fantasy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '175511', 'title': 'Engineering Red', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '175605', 'title': 'S.W.A.T.: Under Siege', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '175651', 'title': 'All Superheroes Must Die 2: The Last Superhero', 'genres': 'Mystery|Sci-Fi'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '175695', 'title': 'The Misadventures of Rick and Morty', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '175985', 'title': 'The Land Where the Blues Began', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '176127', 'title': 'Lauri M�ntyvaaran tuuheet ripset', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '176151', 'title': 'Aprel', 'genres': 'Crime|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '176269', 'title': 'Subdue', 'genres': 'Children|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '176601', 'title': 'Black Mirror', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '176803', 'title': 'What the Waters Left Behind', 'genres': 'Horror'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '176857', 'title': 'Ascent to Hell', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '177029', 'title': 'Supercon', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '177235', 'title': 'In Search of Fellini', 'genres': 'Adventure|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '177265', 'title': 'Checkmate', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '177485', 'title': 'With love', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '177589', 'title': 'The Stone', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '177625', 'title': 'Bigfoot in Europe: Sasquatch Encounters Abroad', 'genres': 'Action|Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '177973', 'title': 'The Wayward Sun', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178127', 'title': 'Abd El-Kader', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178187', 'title': 'El Superstar', 'genres': 'Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178267', 'title': 'Palestine Blues', 'genres': 'Documentary|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178271', 'title': 'Pururambo', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178423', 'title': 'Sprawling from Grace', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178425', 'title': 'Teen a Go Go: A Little Film About Rock and Roll History', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178619', 'title': 'Vilaieha', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178845', 'title': 'The Lost City of Cecil B. DeMille', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '178961', 'title': 'Slumber', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '179001', 'title': 'Koudelka Shooting Holy Land', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '179311', 'title': 'The Book of Birdie', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '179317', 'title': 'Clementina', 'genres': 'Drama|Horror'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '179379', 'title': 'My Brother Khosrow', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '179479', 'title': 'Samadhi Part 1: Maya, the Illusion of the Self', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '179667', 'title': 'Going for Broke', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '180011', 'title': 'ShadowRing', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '180053', 'title': 'Gutboy: A Badtime Story', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '180175', 'title': 'Kickoff', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '180199', 'title': 'S.M.A.R.T. Chase', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '180455', 'title': 'The End?', 'genres': 'Horror'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '180855', 'title': 'Rigoletto', 'genres': 'Drama|Romance'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '180863', 'title': 'Nebraska Supersonic', 'genres': 'Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '181407', 'title': 'Prosta historia o mi?o?ci', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '181409', 'title': 'Felix, Net i Nika oraz teoretycznie mo?liwa katastrofa', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '181435', 'title': 'Inside John Lennon - Unauthorized', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '181637', 'title': 'Frangi', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '181669', 'title': 'Inoperable', 'genres': 'Horror'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '181685', 'title': '?? ??? ???', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '182461', 'title': 'No Ordinary Hero: The SuperDeafy Movie', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '182723', 'title': 'Cosmos: A Spacetime Odissey', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '182765', 'title': 'Rooster: Spurs of Death!', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183247', 'title': '?????????', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183665', 'title': 'The Moors Murders', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183709', 'title': 'Harvest', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183755', 'title': 'Basmati Blues', 'genres': 'Comedy|Romance'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183837', 'title': 'The Favourite', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183855', 'title': 'Terminal', 'genres': 'Drama|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183871', 'title': 'Functional Fitness', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183935', 'title': 'Made in Italy', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '183947', 'title': 'NOFX Backstage Passport 2', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '184003', 'title': 'Heroine', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '184155', 'title': 'An Hour Behind', 'genres': 'Drama|Romance'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '184607', 'title': 'A Grim Becoming', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '184703', 'title': 'The Body Tree', 'genres': 'Horror|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '184913', 'title': 'Seat 25', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '185007', 'title': 'The Contender', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '185357', 'title': 'Zero', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '185491', 'title': "MisLead: America's Secret Epidemic", 'genres': 'Documentary|Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '185721', 'title': 'Sensitive: The Untold Story', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '185985', 'title': 'Scott and Sid', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '186909', 'title': 'Taco Shop', 'genres': 'Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '186951', 'title': 'Fort Maria', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '187451', 'title': 'Anthony Joshua: The Road to Klitschko', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '187471', 'title': 'No. 1 Chung Ying Street', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '187475', 'title': 'Diamond Dogs', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '187577', 'title': 'The Death & Life of John F. Donovan', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '187965', 'title': 'Sanctuary', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '188201', 'title': 'Higher Power', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '188219', 'title': 'Always at The Carlyle', 'genres': 'Documentary'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '188257', 'title': 'When Bette Met Mae', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '188451', 'title': 'Witch-Hunt', 'genres': 'Horror|Mystery|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '188595', 'title': 'Bubblegum', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '188661', 'title': 'Untitled Star Trek Sequel', 'genres': 'Action|Adventure|Sci-Fi'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '188853', 'title': 'Class Reunion 2: A Wedding and a Funeral', 'genres': 'Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '189047', 'title': 'Veras Mantel', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '189325', 'title': 'The Change', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '189345', 'title': 'The Doctor From India', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '189577', 'title': 'Tau', 'genres': 'Sci-Fi|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '189619', 'title': 'The Greenhorns', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '189833', 'title': 'Inheritance', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '190017', 'title': 'The Death of Superman', 'genres': 'Action|Animation|Drama|Sci-Fi'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '190159', 'title': 'The Midnighters', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '190747', 'title': 'Mara', 'genres': 'Crime|Horror|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '190897', 'title': 'A Triumph of the Heart: The Ricky Bell Story', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '190937', 'title': 'Tell Me Your Name', 'genres': 'Horror|Thriller'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '190961', 'title': 'Poor Boy', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '190965', 'title': 'En Busca del Mu�eco Perdido', 'genres': 'Adventure|Comedy'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '191021', 'title': 'Rich Man, Poor Woman in New York', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '191403', 'title': 'New Neighbors, Old Fights', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '191697', 'title': 'Lottery', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '191939', 'title': 'Since', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '192001', 'title': 'His Last Vow', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '192113', 'title': 'Nakimushi Shottan no Kiseki', 'genres': 'Drama'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '192139', 'title': 'Undercity', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '192227', 'title': 'Dansa f�rst', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '192339', 'title': 'The Sign of Three', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '192829', 'title': 'Parwaaz Hai Junoon', 'genres': 'Adventure|Children|Romance'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '193149', 'title': '�Qu� te juegas?', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '193443', 'title': 'Wall', 'genres': '(no genres listed)'}
+17:25:59 - WARNING - Can`t split column `title` in row: {'movieId': '193657', 'title': 'A Kiss of Chaos', 'genres': 'Action|Drama|Thriller'}
+17:25:59 - INFO - Done!
+17:25:59 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 58098)
+17:25:59 - INFO - filtering data by year_from and year_to
+17:26:00 - INFO - Done!
+17:26:00 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 16555)
+17:26:00 - INFO - filtering data by regexp
+17:26:00 - INFO - Done!
+17:26:00 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year']), shape: (4, 478)
+17:26:00 - INFO - sorting movies by movieId
+17:26:00 - INFO - Done!
+17:26:00 - INFO - reading ratings.csv
+17:28:48 - INFO - Done!
+17:28:48 - DEBUG - cols: dict_keys(['movieId', 'rating']), shape: (2, 53889)
+17:28:48 - INFO - sorting ratings by movieId
+17:28:48 - INFO - Done!
+17:28:48 - INFO - merging movies and ratings
+17:28:49 - INFO - Done!
+17:28:49 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 478)
+17:28:49 - INFO - sorting data by rating
+17:28:49 - INFO - Done!
+17:28:49 - INFO - working with Animation
+17:28:49 - INFO - Animation genre added to output
+17:28:49 - INFO - working with Comedy
+17:28:49 - INFO - Comedy genre added to output
+17:28:49 - INFO - result printed
+17:28:49 - DEBUG - cols: dict_keys(['movieId', 'title', 'genres', 'year', 'rating']), shape: (5, 86)
+17:28:49 - INFO - Finish in 170.4306 secs
