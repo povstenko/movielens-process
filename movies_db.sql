@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Июл 12 2021 г., 18:42
+-- Время создания: Июл 13 2021 г., 09:50
 -- Версия сервера: 10.4.14-MariaDB
 -- Версия PHP: 7.4.10
 
@@ -20,6 +20,41 @@ SET time_zone = "+00:00";
 --
 -- База данных: `movies_db`
 --
+
+DELIMITER $$
+--
+-- Процедуры
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spr_find_top_rated_movies` (IN `n` INT, IN `regexp` VARCHAR(200), IN `year_from` INT, IN `year_to` INT, IN `genres` VARCHAR(200))  BEGIN
+    SET SQL_SELECT_LIMIT = n;
+
+    SELECT
+           m.movieId,
+           m.title,
+           m.genres,
+           m.year,
+           ROUND(AVG(r.rating), 1) AS 'rating'
+    FROM
+         movies AS m
+    INNER JOIN ratings AS r
+        ON m.movieId = r.movieId
+    WHERE
+        ((year_from IS NULL) OR (m.year >= year_from))
+    AND ((year_to IS NULL) OR (m.year <= year_to))
+    AND ((`regexp` IS NULL) OR (REGEXP_SUBSTR(m.title,`regexp`) != ''))
+    AND ((genres IS NULL) OR (REGEXP_SUBSTR(m.genres, genres) != ''))
+    GROUP BY
+             m.movieId,
+             m.title,
+             m.genres,
+             m.year
+    ORDER BY
+             AVG(r.rating) DESC;
+
+    SET SQL_SELECT_LIMIT = Default;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 

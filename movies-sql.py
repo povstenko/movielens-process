@@ -77,6 +77,12 @@ def import_movies_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='movi
         Destination table name, by default 'movies'
     skip_header : bool, optional
         Flag to determinate header row of file, by default True
+    split_regex : str, optional
+        Regular Expression used to remove substring from title column, by default r'\s\(\d{4}\)'
+    year_regex : str, optional
+        Regular Expression used to extract year from title column, by default r'\d{4}'
+    null_genre : str, optional
+        String that determinate NULL value of genres column, by default (no genres listed)'
     """
     cursor = cnx.cursor()
 
@@ -126,6 +132,37 @@ def import_movies_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='movi
     cnx.commit()
     log.info(f'Rows affected: {rows_affected}')
     cursor.close()
+    
+
+def get_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=None):
+    cursor = cnx.cursor()
+    
+    # NULL if None
+    if not n:
+        n = 'NULL'
+    if not regexp:
+        regexp = 'NULL'
+    if not year_from:
+        year_from = 'NULL'
+    if not year_to:
+        year_to = 'NULL'
+    if not genres:
+        genres = 'NULL'
+        
+    try:
+        query_string = f"CALL spr_find_top_rated_movies({n}, '{regexp}', {year_from}, {year_to}, '{genres}');"
+        for result in cursor.execute(query_string, multi=True):
+            if result.with_rows:
+                log.debug(f'Rows produced by statement "{result.statement}":')
+                output = result.fetchall()
+                for i in output:
+                    log.debug(i)
+    except Exception as e:
+        log.exception(e)
+    
+    cnx.commit()
+    cursor.close()
+
 
 def get_arguments() -> dict:
     """Construct the argument parser and get the arguments
@@ -152,7 +189,7 @@ def get_arguments() -> dict:
 
 def main():
     log.basicConfig(level=log.DEBUG,
-                    filename='log/import.log',
+                    filename='log/sql.log',
                     filemode='w',
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     datefmt='%H:%M:%S')
@@ -172,12 +209,16 @@ def main():
         cnx = connection.MySQLConnection(**CONFIG)
         log.info('Done!')
 
-        log.info('import ratings to DB')
-        import_ratings_csv_to_db(cnx, DATA_FOLDER_PATH + 'ratings.csv')
-        log.info('Done!')
+        # log.info('import ratings to DB')
+        # import_ratings_csv_to_db(cnx, DATA_FOLDER_PATH + 'ratings.csv')
+        # log.info('Done!')
         
-        log.info('import movies to DB')
-        import_movies_csv_to_db(cnx, DATA_FOLDER_PATH + 'movies.csv')
+        # log.info('import movies to DB')
+        # import_movies_csv_to_db(cnx, DATA_FOLDER_PATH + 'movies.csv')
+        # log.info('Done!')
+        
+        log.info('fetching movies')
+        get_movies(cnx, args['topN'], args['regexp'], args['year_from'], args['year_to'], args['genres'])
         log.info('Done!')
 
     except Exception as e:
