@@ -1,18 +1,23 @@
-11:20:40 - INFO - Start
-11:20:40 - INFO - constructing argument parser
-11:20:40 - INFO - Done!
-11:20:40 - DEBUG - arguments: {'topN': 5, 'genres': 'Animation|Comedy', 'year_from': 1080, 'year_to': 2010, 'regexp': '\\d'}
-11:20:40 - INFO - Opening connection to DB
-11:20:40 - DEBUG - new_auth_plugin: mysql_native_password
-11:20:40 - INFO - Done!
-11:20:40 - INFO - fetching movies
-11:20:41 - DEBUG - Rows produced by statement "CALL spr_find_top_rated_movies(5, '\d', 1080, 2010, 'Animation|Comedy')":
-11:20:41 - DEBUG - (34312, 'Calcium Kid, The', 'Comedy', 2004, 5.0)
-11:20:41 - DEBUG - (91355, 'Asterix and the Vikings (Astérix et les Vikings)', 'Adventure|Animation|Children|Comedy|Fantasy', 2006, 5.0)
-11:20:41 - DEBUG - (88448, 'Paper Birds (Pájaros de papel)', 'Comedy|Drama', 2010, 5.0)
-11:20:41 - DEBUG - (136447, 'George Carlin: You Are All Diseased', 'Comedy', 1999, 5.0)
-11:20:41 - DEBUG - (5241, 'Seems Like Old Times', 'Comedy|Romance', 1980, 5.0)
-11:20:41 - DEBUG - Number of rows affected by statement "": 0
-11:20:41 - INFO - Done!
-11:20:41 - INFO - Connection to DB closed
-11:20:41 - INFO - Finish in 0.9396 secs
+12:30:55 - INFO - Start
+12:30:55 - INFO - constructing argument parser
+12:30:55 - DEBUG - arguments: {'topN': 5, 'genres': 'Animation|Comedy', 'year_from': 1080, 'year_to': 2010, 'regexp': '\\d'}
+12:30:55 - INFO - Done!
+12:30:55 - INFO - Opening connection to DB
+12:30:55 - DEBUG - new_auth_plugin: mysql_native_password
+12:30:55 - INFO - Done!
+12:30:55 - INFO - fetching movies
+12:30:55 - DEBUG - Rows produced by statement "CALL spr_find_top_rated_movies(5, '\d', 1080, 2010, 'Animation')":
+12:30:55 - DEBUG - (69469, "Garfield's Pet Force", 'Animation', 2009, 5.0)
+12:30:55 - DEBUG - (163386, 'Winnie the Pooh and the Day of Concern', 'Animation', 1972, 5.0)
+12:30:55 - DEBUG - (136341, 'Scooby-Doo! and the Samurai Sword', 'Animation|Children|Comedy', 2009, 5.0)
+12:30:55 - DEBUG - (118894, 'Scooby-Doo! Abracadabra-Doo', 'Animation|Children|Mystery', 2010, 5.0)
+12:30:55 - DEBUG - (172793, 'Vovka in the Kingdom of Far Far Away', 'Adventure|Animation|Children|Fantasy', 1965, 5.0)
+12:30:56 - DEBUG - Rows produced by statement "CALL spr_find_top_rated_movies(5, '\d', 1080, 2010, 'Comedy')":
+12:30:56 - DEBUG - (83969, 'Down Argentine Way', 'Comedy|Drama|Romance', 1940, 5.0)
+12:30:56 - DEBUG - (53578, 'Valet, The (La doublure)', 'Comedy', 2006, 5.0)
+12:30:56 - DEBUG - (165959, 'Alesha Popovich and Tugarin the Dragon', 'Animation|Comedy|Drama', 2004, 5.0)
+12:30:56 - DEBUG - (26147, 'Thousand Clowns, A', 'Comedy|Drama|Romance', 1965, 5.0)
+12:30:56 - DEBUG - (5513, 'Martin Lawrence Live: Runteldat', 'Comedy|Documentary', 2002, 5.0)
+12:30:56 - INFO - Done!
+12:30:56 - INFO - Connection to DB closed
+12:30:56 - INFO - Finish in 1.5016 secs

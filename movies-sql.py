@@ -39,7 +39,7 @@ def import_ratings_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='rat
     try:
         with open(file_path, newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
-            
+
             field_names = ''
             if skip_header:
                 field_names = '(' + ', '.join(next(reader)) + ')'
@@ -56,7 +56,7 @@ def import_ratings_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='rat
                 rows_affected += cursor.rowcount
     except Exception as e:
         log.exception(e)
-    
+
     cnx.commit()
     log.info(f'Rows affected: {rows_affected}')
     cursor.close()
@@ -89,7 +89,7 @@ def import_movies_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='movi
     try:
         with open(file_path, newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
-            
+
             field_names = ''
             if skip_header:
                 field_names = '(' + ', '.join(next(reader)+['year']) + ')'
@@ -97,7 +97,7 @@ def import_movies_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='movi
 
             rows_affected = 0
             for row in reader:
-                
+
                 # get year column from title
                 year = re.search(split_regex, row[1])
                 if year:
@@ -107,16 +107,16 @@ def import_movies_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='movi
                     year = 'NULL'
                     log.warning(f'Can`t split year column in row: {row}')
                 row.append(year)
-                
+
                 row[1] = re.sub(r'\"', '\\"', row[1])
                 row[1] = f'"{row[1]}"'
-                
+
                 # set NULL if no genres listed
                 if row[2] == null_genre:
                     row[2] = 'NULL'
                 else:
                     row[2] = f'"{row[2]}"'
-                
+
                 values = ', '.join(row)
                 query_string = f'INSERT INTO {dest_table} {field_names} VALUES ({values})'
                 # log.debug(query_string)
@@ -128,39 +128,73 @@ def import_movies_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='movi
     except Exception as e:
         log.exception(e)
         log.debug(query_string)
-    
+
     cnx.commit()
     log.info(f'Rows affected: {rows_affected}')
     cursor.close()
-    
 
-def get_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=None):
+
+def get_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=None, delimiter=','):
+    """ Get and print movies from stored procedure
+
+    Parameters
+    ----------
+    cnx :
+        MySqlConnection to database
+    n : int, optional
+        The number of top rated movies for each genre, by default None
+    regexp : str, optional
+        Filter on name of the film, by default None
+    year_from : int, optional
+        The lower boundary of year filter, by default None
+    year_to : int, optional
+        The lower boundary of year filter, by default None
+    genres : str, optional
+        User-defined genre filter. can be multiple, by default None
+    delimiter : str, optional
+        Separator of csv format, by default ','
+    """
     cursor = cnx.cursor()
-    
+
     # NULL if None
     if not n:
         n = 'NULL'
     if not regexp:
         regexp = 'NULL'
+    else:
+        regexp = f"'{regexp}'"
     if not year_from:
         year_from = 'NULL'
     if not year_to:
         year_to = 'NULL'
     if not genres:
-        genres = 'NULL'
-        
+        genres = ['NULL']
+    else:
+        genres = genres.split('|')
+        genres = [f"'{g}'" for g in genres]
+
     try:
-        query_string = f"CALL spr_find_top_rated_movies({n}, '{regexp}', {year_from}, {year_to}, '{genres}');"
-        for result in cursor.execute(query_string, multi=True):
-            if result.with_rows:
-                log.debug(f'Rows produced by statement "{result.statement}":')
-                output = result.fetchall()
-                for i in output:
-                    log.debug(i)
+        for genre in genres:
+            query_string = f"CALL spr_find_top_rated_movies({n}, {regexp}, {year_from}, {year_to}, {genre});"
+            for result in cursor.execute(query_string, multi=True):
+                if result.with_rows:
+                    log.debug(f'Rows produced by statement "{result.statement}":')
+                    
+                    output = result.fetchall()
+                    for row in output:
+                        log.debug(row)
+                        
+                        csv_row = ''
+                        for attr in row:
+                            if delimiter in str(attr):
+                                attr = f'"{attr}"'
+                            csv_row += delimiter + str(attr)
+                        csv_row = csv_row[1:]
+                        print(csv_row)
+                        
     except Exception as e:
         log.exception(e)
-    
-    cnx.commit()
+
     cursor.close()
 
 
@@ -200,8 +234,8 @@ def main():
     # construct args
     log.info('constructing argument parser')
     args = get_arguments()
-    log.info('Done!')
     log.debug(f'arguments: {args}')
+    log.info('Done!')
 
     try:
         # DB connect
@@ -212,13 +246,14 @@ def main():
         # log.info('import ratings to DB')
         # import_ratings_csv_to_db(cnx, DATA_FOLDER_PATH + 'ratings.csv')
         # log.info('Done!')
-        
+
         # log.info('import movies to DB')
         # import_movies_csv_to_db(cnx, DATA_FOLDER_PATH + 'movies.csv')
         # log.info('Done!')
-        
+
         log.info('fetching movies')
-        get_movies(cnx, args['topN'], args['regexp'], args['year_from'], args['year_to'], args['genres'])
+        get_movies(cnx, args['topN'], args['regexp'],
+                   args['year_from'], args['year_to'], args['genres'])
         log.info('Done!')
 
     except Exception as e:
@@ -226,7 +261,7 @@ def main():
 
     cnx.close()
     log.info('Connection to DB closed')
-    
+
     time_elapsed = time.perf_counter() - time_start
     log.info(f'Finish in {time_elapsed:.4f} secs')
 
