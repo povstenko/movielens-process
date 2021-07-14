@@ -17,7 +17,89 @@ This script allows user to get information about top rated films.
   * [Saving output to file](#saving-output-to-file)
 - [License](#license)
 
-  
+ 
+## Setup
+Setup instructions
+
+### Database
+Execute SQL script `sql\movies_db.sql` to setup MySQL database. This script creates database `movies_db`, stored procedure `spr_get_top_ranked_movies`, and following tables:
+
+| movies               |
+|----------------------|
+| movieId : int(11)    |
+| title: varchar(255)  |
+| genres: varchar(255) |
+| year: int(11)        |
+
+| ratings            |
+|--------------------|
+| userId : int(11)   |
+| movieId: int(11)   |
+| rating: float      |
+| timestamp: int(11) |
+
+### Config
+Before running program, create config file `config.py` in the same folder of script. This file must contain following information:
+```
+CONFIG = {
+    'data_folder_path': 'data/ml-latest-small/',
+    'logging': {
+        'level': 'DEBUG',
+        'filename': 'log/app.log',
+        'filemode': 'w',
+        'format': '%(asctime)s - %(levelname)s - %(message)s',
+        'datefmt': '%H:%M:%S'
+    },
+    'db_connect': {
+        'user': '****',
+        'password': '****',
+        'host': '****',
+        'database': 'movies_db',
+        'raise_on_warnings': True
+    }
+}
+```
+Replace `****` with DB credentials
+
+Set `CONFIG.logging.level` value to `INFO` and `CONFIG.db_connect.raise_on_warnings` = `False` to disable warnings and debug information on client\`s application:
+```
+CONFIG = {
+    ...
+    'logging': {
+        'level': 'INFO',
+        ...
+    },
+    'db_connect': {
+        ...
+        'raise_on_warnings': False
+    }
+}
+```
+
+### Import data
+Run following command in terminal to import data from csv files to database:
+```
+$python import_to_db.py
+```
+
+After data importing all rows without year and genres are writed in `.log` file (specified in `config.py`). Example:
+```
+...
+13:34:26 - WARNING - Can`t split year column in row: ['140956', 'Ready Player One', 'Action|Sci-Fi|Thriller']
+13:34:26 - WARNING - NULL genre: ['141131', '"Guardians"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['141866', '"Green Room"', 'NULL', '2015']
+13:34:26 - WARNING - NULL genre: ['142456', '"The Brand New Testament"', 'NULL', '2015']
+13:34:26 - WARNING - Can`t split year column in row: ['143410', 'Hyena Road', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['143410', '"Hyena Road"', 'NULL', 'NULL']
+13:34:26 - WARNING - Can`t split year column in row: ['147250', 'The Adventures of Sherlock Holmes and Doctor Watson', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['147250', '"The Adventures of Sherlock Holmes and Doctor Watson"', 'NULL', 'NULL']
+13:34:26 - WARNING - NULL genre: ['149330', '"A Cosmic Christmas"', 'NULL', '1977']
+13:34:26 - WARNING - Can`t split year column in row: ['149334', 'Nocturnal Animals', 'Drama|Thriller']
+13:34:26 - WARNING - NULL genre: ['152037', '"Grease Live"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['155589', '"Noin 7 veljestä"', 'NULL', '1968']
+13:34:26 - WARNING - Can`t split year column in row: ['156605', 'Paterson', '(no genres listed)']
+...
+```
 
 ## Parameters
 
@@ -34,7 +116,7 @@ This script allows user to get information about top rated films.
 
 Use `--topN` parameter to get top N ranked movies, for example, following command returns top 3 films:
 ```
-$python movies.py -n 3
+$python movies-client.py -n 3
 ```
 Output:
 ```
@@ -49,7 +131,7 @@ Pass [RegEx](https://en.wikipedia.org/wiki/Regular_expression) as a argument of 
 
 For example, to get  top 2 films about "love" use command:
 ```
-$python movies.py -n 2 -r love
+$python movies-client.py -n 2 -r love
 ```
 Output:
 ```
@@ -63,7 +145,7 @@ Use `--year_from` and `year_from` to determinate movie\`s year range.
 
 This command returns movies with "love" in title and the year is more or equal than 1995:
 ```
-$python movies.py -r love -f 1995
+$python movies-client.py -r love -f 1995
 ```
 Output:
 ```
@@ -77,7 +159,7 @@ movieId,title,genres,year,rating
 
 And following command returns movies with year between 1995 and 2008:
 ```
-$python movies.py -r love -f 1995 -t 2008
+$python movies-client.py -r love -f 1995 -t 2008
 ```
 Output:
 ```
@@ -92,7 +174,7 @@ Specify `--genres` argument in order to get top ranked films for each genre cate
 
 For example, this command returns top 5 movies  from 2000 year for Comedy and Adventure genres:
 ```
-$python movies.py -n 5 -f 2000 -g "Comedy|Adventure"
+$python movies-client.py -n 5 -f 2000 -g "Comedy|Adventure"
 ```
 Output:
 ```
@@ -114,7 +196,7 @@ Use `>` to specify filename and redirect output of script to the file.
 
 For example:
 ```
-$python movies.py -n 100 -f 1980 -t 2010 -g "Animation" > output.csv
+$python movies-client.py -n 100 -f 1980 -t 2010 -g "Animation" > output.csv
 ```
 Output:
 ```
