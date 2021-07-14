@@ -8,6 +8,10 @@ This script allows user to get information about top rated films.
 
 ## Table of Contents
 
+- [Setup](#setup)
+  * [Database](#database)
+  * [Config](#config)
+  * [Import data](#import-data)
 - [Parameters](#parameters)
 - [Usage](#usage)
   * [Get top N ranked movies](#get-top-n-ranked-movies)
