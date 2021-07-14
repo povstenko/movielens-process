@@ -1,0 +1,63 @@
+13:33:55 - INFO - Start
+13:33:55 - INFO - Opening connection to DB
+13:33:55 - DEBUG - new_auth_plugin: mysql_native_password
+13:33:55 - INFO - Done!
+13:33:55 - INFO - importing ratings to DB
+13:33:55 - DEBUG - Reading file 'data/ml-latest-small/ratings.csv'
+13:33:55 - DEBUG - (userId, movieId, rating, timestamp)
+13:34:23 - INFO - Rows affected: 100836
+13:34:23 - INFO - Done!
+13:34:23 - INFO - importing movies to DB
+13:34:23 - DEBUG - Reading file 'data/ml-latest-small/movies.csv'
+13:34:23 - DEBUG - (movieId, title, genres, year)
+13:34:25 - WARNING - Can`t split year column in row: ['40697', 'Babylon 5', 'Sci-Fi']
+13:34:26 - WARNING - NULL genre: ['114335', '"La cravate"', 'NULL', '1957']
+13:34:26 - WARNING - NULL genre: ['122888', '"Ben-hur"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['122896', '"Pirates of the Caribbean: Dead Men Tell No Tales"', 'NULL', '2017']
+13:34:26 - WARNING - NULL genre: ['129250', '"Superfast!"', 'NULL', '2015']
+13:34:26 - WARNING - NULL genre: ['132084', '"Let It Be Me"', 'NULL', '1995']
+13:34:26 - WARNING - NULL genre: ['134861', '"Trevor Noah: African American"', 'NULL', '2013']
+13:34:26 - WARNING - Can`t split year column in row: ['140956', 'Ready Player One', 'Action|Sci-Fi|Thriller']
+13:34:26 - WARNING - NULL genre: ['141131', '"Guardians"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['141866', '"Green Room"', 'NULL', '2015']
+13:34:26 - WARNING - NULL genre: ['142456', '"The Brand New Testament"', 'NULL', '2015']
+13:34:26 - WARNING - Can`t split year column in row: ['143410', 'Hyena Road', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['143410', '"Hyena Road"', 'NULL', 'NULL']
+13:34:26 - WARNING - Can`t split year column in row: ['147250', 'The Adventures of Sherlock Holmes and Doctor Watson', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['147250', '"The Adventures of Sherlock Holmes and Doctor Watson"', 'NULL', 'NULL']
+13:34:26 - WARNING - NULL genre: ['149330', '"A Cosmic Christmas"', 'NULL', '1977']
+13:34:26 - WARNING - Can`t split year column in row: ['149334', 'Nocturnal Animals', 'Drama|Thriller']
+13:34:26 - WARNING - NULL genre: ['152037', '"Grease Live"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['155589', '"Noin 7 veljestä"', 'NULL', '1968']
+13:34:26 - WARNING - Can`t split year column in row: ['156605', 'Paterson', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['156605', '"Paterson"', 'NULL', 'NULL']
+13:34:26 - WARNING - NULL genre: ['159161', '"Ali Wong: Baby Cobra"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['159779', '"A Midsummer Night\'s Dream"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['161008', '"The Forbidden Dance"', 'NULL', '1990']
+13:34:26 - WARNING - Can`t split year column in row: ['162414', 'Moonlight', 'Drama']
+13:34:26 - WARNING - NULL genre: ['165489', '"Ethel & Ernest"', 'NULL', '2016']
+13:34:26 - WARNING - NULL genre: ['166024', '"Whiplash"', 'NULL', '2013']
+13:34:26 - WARNING - Can`t split year column in row: ['167570', 'The OA', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['167570', '"The OA"', 'NULL', 'NULL']
+13:34:26 - WARNING - NULL genre: ['169034', '"Lemonade"', 'NULL', '2016']
+13:34:26 - WARNING - Can`t split year column in row: ['171495', 'Cosmos', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['171495', '"Cosmos"', 'NULL', 'NULL']
+13:34:26 - WARNING - Can`t split year column in row: ['171631', 'Maria Bamford: Old Baby', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['171631', '"Maria Bamford: Old Baby"', 'NULL', 'NULL']
+13:34:26 - WARNING - Can`t split year column in row: ['171749', 'Death Note: Desu nôto (2006–2007)', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['171749', '"Death Note: Desu nôto (2006–2007)"', 'NULL', 'NULL']
+13:34:26 - WARNING - Can`t split year column in row: ['171891', 'Generation Iron 2', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['171891', '"Generation Iron 2"', 'NULL', 'NULL']
+13:34:26 - WARNING - NULL genre: ['172497', '"T2 3-D: Battle Across Time"', 'NULL', '1996']
+13:34:26 - WARNING - NULL genre: ['172591', '"The Godfather Trilogy: 1972-1990"', 'NULL', '1992']
+13:34:26 - WARNING - NULL genre: ['173535', '"The Adventures of Sherlock Holmes and Doctor Watson: The Hunt for the Tiger"', 'NULL', '1980']
+13:34:26 - WARNING - NULL genre: ['174403', '"The Putin Interviews"', 'NULL', '2017']
+13:34:26 - WARNING - Can`t split year column in row: ['176601', 'Black Mirror', '(no genres listed)']
+13:34:26 - WARNING - NULL genre: ['176601', '"Black Mirror"', 'NULL', 'NULL']
+13:34:26 - WARNING - NULL genre: ['181413', '"Too Funny to Fail: The Life and Death of The Dana Carvey Show"', 'NULL', '2017']
+13:34:26 - WARNING - NULL genre: ['181719', '"Serving in Silence: The Margarethe Cammermeyer Story"', 'NULL', '1995']
+13:34:26 - WARNING - NULL genre: ['182727', '"A Christmas Story Live!"', 'NULL', '2017']
+13:34:26 - INFO - Rows affected: 9742
+13:34:26 - INFO - Done!
+13:34:26 - INFO - Connection to DB closed
+13:34:26 - INFO - Finish in 31.0379 secs

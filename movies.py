@@ -547,7 +547,7 @@ def main():
                                         r'\s\(\d\d\d\d\)', r'\d\d\d\d')
     log.info('Done!')
     log.debug(data_info(movies))
-    
+
     # filter by year
     log.info('filtering data by year_from and year_to')
     movies = filtered_data_col_in_range(
@@ -557,7 +557,7 @@ def main():
     )
     log.info('Done!')
     log.debug(data_info(movies))
-    
+
     # filter by title
     if args['regexp']:
         log.info('filtering data by regexp')
