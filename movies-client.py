@@ -17,6 +17,44 @@ import logging as log
 from config import *
 from mysql.connector import (connection)
 
+def fetch_movies_data(cnx, n=None, regexp=None, year_from=None, year_to=None, genre=None):
+    log.info('fetching movies')
+    cursor = cnx.cursor()
+
+    # NULL if None
+    if not n:
+        n = 'NULL'
+    if not regexp:
+        regexp = 'NULL'
+    else:
+        regexp = f"'{regexp}'"
+    if not year_from:
+        year_from = 'NULL'
+    if not year_to:
+        year_to = 'NULL'
+    if not genre:
+        genre = 'NULL'
+    else:
+        genre = f"'{genre}'"
+
+    try:
+        query_string = f"CALL spr_find_top_rated_movies({n}, {regexp}, {year_from}, {year_to}, {genre});"
+        log.debug(query_string)
+        
+        for result in cursor.execute(query_string, multi=True):
+            if result.with_rows:
+                log.debug(f'Rows produced by statement "{result.statement}":')
+
+                for row in result.fetchall():
+                    log.debug(row)
+                    yield row
+
+    except Exception as e:
+        log.exception(e)
+        log.debug(query_string)
+
+    cursor.close()
+
 
 def print_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=None, delimiter=','):
     """ Get and print movies from stored procedure
@@ -38,24 +76,10 @@ def print_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=
     delimiter : str, optional
         Separator of csv format, by default ','
     """
-    cursor = cnx.cursor()
-
-    # NULL if None
-    if not n:
-        n = 'NULL'
-    if not regexp:
-        regexp = 'NULL'
-    else:
-        regexp = f"'{regexp}'"
-    if not year_from:
-        year_from = 'NULL'
-    if not year_to:
-        year_to = 'NULL'
     if not genres:
-        genres = ['NULL']
+        genres = [None]
     else:
         genres = genres.split('|')
-        genres = [f"'{g}'" for g in genres]
 
     try:
         column_names = ['movieId', 'title', 'genres', 'year', 'rating']
@@ -63,27 +87,17 @@ def print_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=
         print(header)
 
         for genre in genres:
-            query_string = f"CALL spr_find_top_rated_movies({n}, {regexp}, {year_from}, {year_to}, {genre});"
-            for result in cursor.execute(query_string, multi=True):
-
-                if result.with_rows:
-                    log.debug(
-                        f'Rows produced by statement "{result.statement}":')
-
-                    for row in result.fetchall():
-                        log.debug(row)
-
-                        csv_row = ''
-                        for attr in row:
-                            if delimiter in str(attr):
-                                attr = f'"{attr}"'
-                            csv_row += delimiter + str(attr)
-                        csv_row = csv_row[1:]
-                        print(csv_row)
+            log.debug(f'genre: {genre}')
+            for row in fetch_movies_data(cnx, n, regexp, year_from, year_to, genre):
+                csv_row = ''
+                for attr in row:
+                    if delimiter in str(attr):
+                        attr = f'"{attr}"'
+                    csv_row += delimiter + str(attr)
+                csv_row = csv_row[1:]
+                print(csv_row)
     except Exception as e:
         log.exception(e)
-
-    cursor.close()
 
 
 def get_arguments() -> dict:
@@ -131,7 +145,7 @@ def main():
         cnx = connection.MySQLConnection(**CONFIG['db_connect'])
         log.info('Done!')
 
-        log.info('fetching movies')
+        log.info('fetching and printing movies')
         print_movies(cnx, args['topN'], args['regexp'],
                      args['year_from'], args['year_to'], args['genres'])
         log.info('Done!')
