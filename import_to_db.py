@@ -1,4 +1,5 @@
 """Import CSV to DB
+
 This script allows user to import data to Database.
 
 This file can also be imported as a module and contains the following
@@ -54,10 +55,11 @@ def import_ratings_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='rat
                     values
                 )
                 rows_affected += cursor.rowcount
+        cnx.commit()
     except Exception as e:
         log.exception(e)
-
-    cnx.commit()
+        cnx.rollback()
+    
     log.info(f'Rows affected: {rows_affected}')
     cursor.close()
 
@@ -127,11 +129,12 @@ def import_movies_csv_to_db(cnx, file_path: str, delimiter=',', dest_table='movi
                     values
                 )
                 rows_affected += cursor.rowcount
+        cnx.commit()
     except Exception as e:
         log.exception(e)
         log.debug(query_string)
-
-    cnx.commit()
+        cnx.rollback()
+    
     log.info(f'Rows affected: {rows_affected}')
     cursor.close()
 
@@ -161,7 +164,7 @@ def main():
         log.info('Done!')
 
     except Exception as e:
-        log.error(e)
+        log.exception(e)
 
     cnx.close()
     log.info('Connection to DB closed')
