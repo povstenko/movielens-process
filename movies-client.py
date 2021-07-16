@@ -5,7 +5,7 @@ This script allows user to get information about films.
 This file can also be imported as a module and contains the following
 functions:
 
-    * print_movies - Print data in csv format
+    * display_movies - Print data in csv format
     * get_arguments - Construct the argument parser and get the arguments
     * main - the main function of the script
 """
@@ -17,7 +17,29 @@ import logging as log
 from config import *
 from mysql.connector import (connection)
 
-def fetch_movies_data(cnx, n=None, regexp=None, year_from=None, year_to=None, genre=None):
+def fetch_movies_data(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=None):
+    """ Generator function to fetch data rows from stored procedure with arguments
+
+    Parameters
+    ----------
+    cnx :
+        MySqlConnection to database
+    n : int, optional
+        The number of top rated movies for each genre, by default None
+    regexp : str, optional
+        Filter on name of the film, by default None
+    year_from : int, optional
+        The lower boundary of year filter, by default None
+    year_to : int, optional
+        The lower boundary of year filter, by default None
+    genres : str, optional
+        User-defined genre filter. can be multiple, by default None
+
+    Yields
+    -------
+    tuple
+        row of MySqlConnector data from stored procedure
+    """
     log.info('fetching movies')
     cursor = cnx.cursor()
 
@@ -32,15 +54,13 @@ def fetch_movies_data(cnx, n=None, regexp=None, year_from=None, year_to=None, ge
         year_from = 'NULL'
     if not year_to:
         year_to = 'NULL'
-    if not genre:
-        genre = 'NULL'
+    if not genres:
+        genres = 'NULL'
     else:
-        genre = f"'{genre}'"
+        genres = f"'{genres}'"
 
     try:
-        query_string = f"CALL spr_find_top_rated_movies({n}, {regexp}, {year_from}, {year_to}, {genre});"
-        log.debug(query_string)
-        
+        query_string = f"CALL spr_find_top_rated_movies({n}, {regexp}, {year_from}, {year_to}, {genres});"
         for result in cursor.execute(query_string, multi=True):
             if result.with_rows:
                 log.debug(f'Rows produced by statement "{result.statement}":')
@@ -48,7 +68,6 @@ def fetch_movies_data(cnx, n=None, regexp=None, year_from=None, year_to=None, ge
                 for row in result.fetchall():
                     log.debug(row)
                     yield row
-
     except Exception as e:
         log.exception(e)
         log.debug(query_string)
@@ -56,8 +75,8 @@ def fetch_movies_data(cnx, n=None, regexp=None, year_from=None, year_to=None, ge
     cursor.close()
 
 
-def print_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=None, delimiter=','):
-    """ Get and print movies from stored procedure
+def display_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=None, delimiter=',') -> None:
+    """ Display movies from called stored procedure in csv format
 
     Parameters
     ----------
@@ -76,26 +95,19 @@ def print_movies(cnx, n=None, regexp=None, year_from=None, year_to=None, genres=
     delimiter : str, optional
         Separator of csv format, by default ','
     """
-    if not genres:
-        genres = [None]
-    else:
-        genres = genres.split('|')
-
     try:
         column_names = ['movieId', 'title', 'genres', 'year', 'rating']
         header = ', '.join(column_names)
         print(header)
-
-        for genre in genres:
-            log.debug(f'genre: {genre}')
-            for row in fetch_movies_data(cnx, n, regexp, year_from, year_to, genre):
-                csv_row = ''
-                for attr in row:
-                    if delimiter in str(attr):
-                        attr = f'"{attr}"'
-                    csv_row += delimiter + str(attr)
-                csv_row = csv_row[1:]
-                print(csv_row)
+        
+        for row in fetch_movies_data(cnx, n, regexp, year_from, year_to, genres):
+            csv_row = ''
+            for attr in row:
+                if delimiter in str(attr):
+                    attr = f'"{attr}"'
+                csv_row += delimiter + str(attr)
+            csv_row = csv_row[1:]
+            print(csv_row)
     except Exception as e:
         log.exception(e)
 
@@ -146,7 +158,7 @@ def main():
         log.info('Done!')
 
         log.info('fetching and printing movies')
-        print_movies(cnx, args['topN'], args['regexp'],
+        display_movies(cnx, args['topN'], args['regexp'],
                      args['year_from'], args['year_to'], args['genres'])
         log.info('Done!')
 

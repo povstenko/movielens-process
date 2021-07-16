@@ -1,33 +1,23 @@
-13:45:01 - INFO - Start
-13:45:01 - INFO - constructing argument parser
-13:45:01 - DEBUG - arguments: {'topN': 10, 'genres': 'Animation|Comedy', 'year_from': 1980, 'year_to': 2010, 'regexp': 'the'}
-13:45:01 - INFO - Done!
-13:45:01 - INFO - Opening connection to DB
-13:45:01 - DEBUG - new_auth_plugin: mysql_native_password
-13:45:01 - INFO - Done!
-13:45:01 - INFO - fetching movies
-13:45:04 - DEBUG - Rows produced by statement "CALL spr_find_top_rated_movies(10, 'the', 1980, 2010, 'Animation')":
-13:45:04 - DEBUG - (50999, 'Ugly Duckling and Me!, The', 'Animation|Comedy', 2006, 5.0)
-13:45:04 - DEBUG - (104780, 'Mystery of the Third Planet, The (Tayna tretey planety)', 'Adventure|Animation|Sci-Fi', 1981, 5.0)
-13:45:04 - DEBUG - (165959, 'Alesha Popovich and Tugarin the Dragon', 'Animation|Comedy|Drama', 2004, 5.0)
-13:45:04 - DEBUG - (136341, 'Scooby-Doo! and the Samurai Sword', 'Animation|Children|Comedy', 2009, 5.0)
-13:45:04 - DEBUG - (170777, 'There Once Was a Dog', 'Animation|Children|Comedy', 1982, 5.0)
-13:45:04 - DEBUG - (91355, 'Asterix and the Vikings (Astérix et les Vikings)', 'Adventure|Animation|Children|Comedy|Fantasy', 2006, 5.0)
-13:45:04 - DEBUG - (136353, 'Scooby-Doo! and the Loch Ness Monster', 'Animation|Children|Comedy', 2004, 5.0)
-13:45:04 - DEBUG - (121781, 'Stuart Little 3: Call of the Wild', 'Animation|Children|Comedy|Fantasy', 2005, 5.0)
-13:45:04 - DEBUG - (175397, 'In the blue sea, in the white foam.', 'Animation|Children|Fantasy', 1984, 5.0)
-13:45:04 - DEBUG - (126921, 'The Fox and the Hound 2', 'Adventure|Animation|Children|Comedy', 2006, 5.0)
-13:45:14 - DEBUG - Rows produced by statement "CALL spr_find_top_rated_movies(10, 'the', 1980, 2010, 'Comedy')":
-13:45:14 - DEBUG - (8580, 'Into the Woods', 'Adventure|Comedy|Fantasy|Musical', 1991, 5.0)
-13:45:14 - DEBUG - (4135, 'Monster Squad, The', 'Adventure|Comedy|Horror', 1987, 5.0)
-13:45:14 - DEBUG - (150554, 'The Love Bug', 'Adventure|Children|Comedy|Fantasy', 1997, 5.0)
-13:45:14 - DEBUG - (60737, 'Watching the Detectives', 'Comedy|Romance', 2007, 5.0)
-13:45:14 - DEBUG - (5607, 'Son of the Bride (Hijo de la novia, El)', 'Comedy|Drama', 2001, 5.0)
-13:45:14 - DEBUG - (165959, 'Alesha Popovich and Tugarin the Dragon', 'Animation|Comedy|Drama', 2004, 5.0)
-13:45:14 - DEBUG - (121781, 'Stuart Little 3: Call of the Wild', 'Animation|Children|Comedy|Fantasy', 2005, 5.0)
-13:45:14 - DEBUG - (3531, 'All the Vermeers in New York', 'Comedy|Drama|Romance', 1990, 5.0)
-13:45:14 - DEBUG - (136341, 'Scooby-Doo! and the Samurai Sword', 'Animation|Children|Comedy', 2009, 5.0)
-13:45:14 - DEBUG - (170777, 'There Once Was a Dog', 'Animation|Children|Comedy', 1982, 5.0)
-13:45:14 - INFO - Done!
-13:45:14 - INFO - Connection to DB closed
-13:45:14 - INFO - Finish in 13.4615 secs
+23:30:46 - INFO - Start
+23:30:46 - INFO - constructing argument parser
+23:30:46 - DEBUG - arguments: {'topN': 5, 'genres': 'Horror|Children', 'year_from': 1995, 'year_to': 2010, 'regexp': None}
+23:30:46 - INFO - Done!
+23:30:46 - INFO - Opening connection to DB
+23:30:46 - DEBUG - new_auth_plugin: mysql_native_password
+23:30:46 - INFO - Done!
+23:30:46 - INFO - fetching and printing movies
+23:30:46 - INFO - fetching movies
+23:31:02 - DEBUG - Rows produced by statement "CALL spr_find_top_rated_movies(5, NULL, 1995, 2010, 'Horror|Children')":
+23:31:02 - DEBUG - (53127, 'Bug', 'Drama|Horror|Thriller', 2007, 2.9)
+23:31:02 - DEBUG - (8035, 'Stendhal Syndrome, The (Sindrome di Stendhal, La)', 'Crime|Horror|Thriller', 1996, 2.0)
+23:31:02 - DEBUG - (3830, 'Psycho Beach Party', 'Comedy|Horror|Thriller', 2000, 1.5)
+23:31:02 - DEBUG - (43904, 'When a Stranger Calls', 'Horror|Thriller', 2006, 1.3)
+23:31:02 - DEBUG - (83601, 'Amer', 'Drama|Horror', 2009, 0.5)
+23:31:02 - DEBUG - (4232, 'Spy Kids', 'Action|Adventure|Children|Comedy', 2001, 2.9)
+23:31:02 - DEBUG - (71745, 'Where the Wild Things Are', 'Adventure|Children|Drama|Fantasy|IMAX', 2009, 2.7)
+23:31:02 - DEBUG - (5048, 'Snow Dogs', 'Adventure|Children|Comedy', 2002, 2.3)
+23:31:02 - DEBUG - (5504, 'Spy Kids 2: The Island of Lost Dreams', 'Adventure|Children', 2002, 2.2)
+23:31:02 - DEBUG - (5672, 'Pokemon 4 Ever (a.k.a. Pokémon 4: The Movie)', 'Adventure|Animation|Children|Fantasy', 2002, 0.5)
+23:31:02 - INFO - Done!
+23:31:02 - INFO - Connection to DB closed
+23:31:02 - INFO - Finish in 16.1175 secs
