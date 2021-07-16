@@ -1,21 +1,22 @@
 DROP PROCEDURE IF EXISTS spr_split_str;
-CREATE procedure test.spr_split_str(
+CREATE PROCEDURE spr_split_str(
 IN str NVARCHAR(255),
 IN splitter NVARCHAR(255)
 )
 wholeblock:BEGIN
-  declare n INT default 0;
-  declare x INT default 0;
-  SET x = 1;
+  DECLARE n INT DEFAULT 0;
+  DECLARE i INT DEFAULT 0;
+  SET i = 1;
   SET n = (CHAR_LENGTH(str) - CHAR_LENGTH(REPLACE(str, splitter, '')));
-  CREATE TEMPORARY TABLE TempTable(str NVARCHAR(255));
+  DROP TEMPORARY TABLE IF EXISTS tmp_splitted_str;
+  CREATE TEMPORARY TABLE tmp_splitted_str(str NVARCHAR(255));
 
-  WHILE x <= n+1 DO
-    INSERT INTO TempTable SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(str, splitter, x), splitter, -1);
-    SET x = x + 1;
+  WHILE i <= n+1 DO
+    INSERT INTO tmp_splitted_str SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(str, splitter, i), splitter, -1);
+    SET i = i + 1;
   END WHILE;
-    SELECT * FROM TempTable;
-  DROP TABLE TempTable;
+    SELECT * FROM tmp_splitted_str;
+  -- DROP TABLE TempTable;
 END;
 
-CALL spr_split_str('Animation|Comedy|Adventure', '|')
+CALL spr_split_str('Animation|Comedy|Adventure', '|');
