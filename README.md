@@ -44,8 +44,6 @@ $ sudo service mysql start
 ```
 
 ## Setup
-
-## Setup
 Setup instructions
 
 ### Database
