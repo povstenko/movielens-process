@@ -8,6 +8,7 @@ This script allows user to get information about top rated films.
 
 ## Table of Contents
 
+- [Requirements](#requirments)
 - [Setup](#setup)
   * [Database](#database)
   * [Config](#config)
@@ -21,7 +22,29 @@ This script allows user to get information about top rated films.
   * [Saving output to file](#saving-output-to-file)
 - [License](#license)
 
- 
+## Requirements
+Installed [python3.9](https://www.python.org/), `mysql-client` and `mysql-server` packages at your machine. And [`pip install mysql-connector`](https://pypi.org/project/mysql-connector/) python library.
+
+Installation (skip this steps if packages are already installed):
+```
+$ sudo apt-get update
+```
+```
+$ sudo apt-get install python3.9
+```
+```
+$ sudo apt install mysql-client
+```
+```
+$ sudo apt-get install mysql-server
+```
+Start mysql server:
+```
+$ sudo service mysql start
+```
+
+## Setup
+
 ## Setup
 Setup instructions
 
