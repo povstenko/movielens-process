@@ -1,21 +1,22 @@
 DROP PROCEDURE IF EXISTS spr_find_top_rated_movies;
+DELIMITER $$
 CREATE PROCEDURE spr_find_top_rated_movies(
-    IN n int,
-    IN `regexp` varchar(200),
-    IN year_from int,
-    IN year_to int,
-    IN genres varchar(255)
+    IN n INT,
+    IN `regexp` VARCHAR(200),
+    IN year_from INT,
+    IN year_to INT,
+    IN genres VARCHAR(255)
 )
 BEGIN
     DECLARE n_rows INT DEFAULT 0;
     DECLARE i INT DEFAULT 0;
-    DECLARE genre NVARCHAR(100) DEFAULT 0;
+    DECLARE genre VARCHAR(100) DEFAULT 0;
 
     DROP TEMPORARY TABLE IF EXISTS tmp_result;
     CREATE TEMPORARY TABLE tmp_result(
         movieId INT,
-        title NVARCHAR(255),
-        genres NVARCHAR(255),
+        title VARCHAR(255),
+        genres VARCHAR(255),
         year INT,
         rating FLOAT);
 
@@ -37,7 +38,7 @@ BEGIN
                    m.genres,
                    m.year,
                    ROUND(AVG(r.rating), 1) AS 'rating',
-                    ROW_NUMBER() over (ORDER BY r.rating) AS 'rn'
+                    ROW_NUMBER() OVER (ORDER BY r.rating) AS 'rn'
                 FROM
                      movies AS m
                 INNER JOIN ratings AS r
@@ -74,4 +75,4 @@ BEGIN
     DROP TABLE tmp_splitted_str;
 END;
 
-CALL spr_find_top_rated_movies('5', 'the', 1995, 2005, 'Horror|Children');
+-- CALL spr_find_top_rated_movies('5', 'the', 1995, 2005, 'Horror|Children');

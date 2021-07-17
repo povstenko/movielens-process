@@ -14,5 +14,6 @@ START TRANSACTION;
 --
 -- База данных: `movies_db`
 --
-CREATE DATABASE IF NOT EXISTS `movies_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+DROP DATABASE IF EXISTS `movies_db`;
+CREATE DATABASE `movies_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `movies_db`;
