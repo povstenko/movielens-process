@@ -4,16 +4,37 @@
 #date:    17/07/2021
 
 function parse_arguments() {
-    while getopts h:P:u:p:d: flag
+    if [ $# -eq 0 ]
+    then
+        echo "No arguments supplied"
+        exit 1
+    fi
+
+    while getopts "h:P:u:p:d:" flag
     do
         case "${flag}" in
-            h) host_arg=${OPTARG};;
-            P) port=${OPTARG};;
-            u) user=${OPTARG};;
-            p) pass=${OPTARG};;
-            d) db=${OPTARG};;
+            h) checkargs
+                host_arg=${OPTARG};;
+            P) checkargs
+                port=${OPTARG};;
+            u) checkargs
+                user=${OPTARG};;
+            p) checkargs
+                pass=${OPTARG};;
+            d) checkargs
+                db=${OPTARG};;
+            *) echo "No reasonable options found!" 
+                exit 1;;
         esac
     done
+}
+
+checkargs () {
+    if echo "$OPTARG" | grep -q '^-';
+    then
+        echo "Unknown argument $OPTARG for option $opt!"
+        exit 1
+    fi
 }
 
 function execute_sql_files() {
