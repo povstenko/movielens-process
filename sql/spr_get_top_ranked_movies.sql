@@ -18,8 +18,7 @@ BEGIN
             FROM selected_genres
             WHERE i-1 < (CHAR_LENGTH(genres) - CHAR_LENGTH(REPLACE(genres, '|', '')))
         )
-        SELECT
-               *,
+        SELECT *,
                ROW_NUMBER() OVER (
                    PARTITION BY
                        selected_genres.genre
@@ -31,15 +30,19 @@ BEGIN
         FROM selected_genres
         JOIN vw_movies_ratings mr
         ON REGEXP_SUBSTR(mr.genres, selected_genres.genre) != ''
+        WHERE
+              ((year_from IS NULL) OR (mr.year >= year_from))
+          AND ((year_to IS NULL) OR (mr.year <= year_to))
+          AND ((`regexp` IS NULL) OR (REGEXP_SUBSTR(mr.title, `regexp`) != ''))
     )
-    SELECT
-           *
+    SELECT num.movieId,
+           num.title,
+           num.genres,
+           num.year,
+           num.rating
     FROM row_numbered num
     WHERE
-          ((year_from IS NULL) OR (num.year >= year_from))
-      AND ((year_to IS NULL) OR (num.year <= year_to))
-      AND ((`regexp` IS NULL) OR (REGEXP_SUBSTR(num.title, `regexp`) != ''))
-      AND ((n IS NULL) OR (num.rn <= n))
+          ((n IS NULL) OR (num.rn <= n))
     ORDER BY
              num.i,
              num.rating DESC,
