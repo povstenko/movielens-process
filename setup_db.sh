@@ -29,7 +29,7 @@ function parse_arguments() {
     done
 }
 
-checkargs () {
+function checkargs() {
     if echo "$OPTARG" | grep -q '^-';
     then
         echo "Unknown argument $OPTARG for option $opt!"
@@ -46,8 +46,8 @@ function execute_sql_files() {
     mysql -h $host_arg --port=$port $db -u$user < sql/ratings_table.sql
     echo "sql/ratings_table.sql Executed"
     
-    mysql -h $host_arg --port=$port $db -u$user < sql/spr_split_str.sql
-    echo "sql/spr_split_str.sql Executed"
+    mysql -h $host_arg --port=$port $db -u$user < sql/vw_movies_ratings.sql
+    echo "sql/vw_movies_ratings.sql Executed"
     
     mysql -h $host_arg --port=$port $db -u$user < sql/spr_get_top_ranked_movies.sql
     echo "sql/spr_get_top_ranked_movies.sql Executed"
