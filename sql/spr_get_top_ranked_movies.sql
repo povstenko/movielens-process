@@ -8,71 +8,43 @@ CREATE PROCEDURE spr_find_top_rated_movies(
     IN genres VARCHAR(255)
 )
 BEGIN
-    DECLARE n_rows INT DEFAULT 0;
-    DECLARE i INT DEFAULT 0;
-    DECLARE genre VARCHAR(100) DEFAULT 0;
-
-    DROP TEMPORARY TABLE IF EXISTS tmp_result;
-    CREATE TEMPORARY TABLE tmp_result(
-        movieId INT,
-        title VARCHAR(255),
-        genres VARCHAR(255),
-        year INT,
-        rating FLOAT);
-
-    CALL spr_split_str(genres, '|');
-
-    SELECT COUNT(*) FROM tmp_splitted_str INTO n_rows;
-    SET i = 0;
-
-    WHILE i < n_rows DO
-        SELECT str FROM tmp_splitted_str LIMIT i,1 INTO genre;
-
-        INSERT INTO tmp_result
-        SELECT * FROM
+    WITH row_numbered AS
+    (
+        WITH RECURSIVE selected_genres(i, genre) AS
         (
-            WITH movies_numbered AS (
-                SELECT
-                   m.movieId,
-                   m.title,
-                   m.genres,
-                   m.year,
-                   ROUND(AVG(r.rating), 1) AS 'rating',
-                    ROW_NUMBER() OVER (ORDER BY r.rating) AS 'rn'
-                FROM
-                     movies AS m
-                INNER JOIN ratings AS r
-                    ON m.movieId = r.movieId
-                WHERE
-                    ((year_from IS NULL) OR (m.year >= year_from))
-                AND ((year_to IS NULL) OR (m.year <= year_to))
-                AND ((`regexp` IS NULL) OR (REGEXP_SUBSTR(m.title,`regexp`) != ''))
-                AND REGEXP_SUBSTR(m.genres, genre) != ''
-                GROUP BY
-                         m.movieId,
-                         m.title,
-                         m.genres,
-                         m.year
-                ORDER BY
-                         AVG(r.rating) DESC
-            )
-            SELECT movieId,
-                    title,
-                    mn.genres,
-                    year,
-                   rating
-            FROM movies_numbered AS mn
-            WHERE ((n IS NULL) OR (rn <= n))
-
-        ) as insert_movies_genre;
-
-      SET i = i + 1;
-    END WHILE;
-
-    SELECT * FROM tmp_result;
-
-    DROP TABLE tmp_result;
-    DROP TABLE tmp_splitted_str;
+            SELECT 1, SUBSTRING_INDEX(SUBSTRING_INDEX(genres, '|', 1), '|', -1) as genre
+            UNION ALL
+            SELECT i+1, SUBSTRING_INDEX(SUBSTRING_INDEX(genres, '|', i+1), '|', -1)
+            FROM selected_genres
+            WHERE i-1 < (CHAR_LENGTH(genres) - CHAR_LENGTH(REPLACE(genres, '|', '')))
+        )
+        SELECT
+               *,
+               ROW_NUMBER() OVER (
+                   PARTITION BY
+                       selected_genres.genre
+                   ORDER BY
+                       mr.rating DESC,
+                       mr.year DESC,
+                       mr.title
+                   ) AS rn
+        FROM selected_genres
+        JOIN vw_movies_ratings mr
+        ON REGEXP_SUBSTR(mr.genres, selected_genres.genre) != ''
+    )
+    SELECT
+           *
+    FROM row_numbered num
+    WHERE
+          ((year_from IS NULL) OR (num.year >= year_from))
+      AND ((year_to IS NULL) OR (num.year <= year_to))
+      AND ((`regexp` IS NULL) OR (REGEXP_SUBSTR(num.title, `regexp`) != ''))
+      AND ((n IS NULL) OR (num.rn <= n))
+    ORDER BY
+             num.i,
+             num.rating DESC,
+             num.year DESC,
+             num.title;
 END;
 
--- CALL spr_find_top_rated_movies('5', 'the', 1995, 2005, 'Horror|Children');
+-- CALL spr_find_top_rated_movies('5', NULL, 1995, 2015, 'Horror|Children');
