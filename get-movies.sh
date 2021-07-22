@@ -3,6 +3,7 @@
 #author:  Vitaliy Povstenko
 #date:    17/07/2021
 
+
 function parse_arguments() {
     if [ $# -eq 0 ]
     then
@@ -10,7 +11,14 @@ function parse_arguments() {
         exit 0
     fi
 
-    while getopts "h:n:g:f:t:r:s" flag
+    # default parameters
+    hostname="localhost"
+    port="3306"
+    user="root"
+    pass="root"
+    db="master"
+
+    while getopts "hn:g:f:t:r:sH:P:u:p:d:" flag
     do
         case "${flag}" in
             h)  
@@ -33,9 +41,23 @@ function parse_arguments() {
                 checkargs
                 regexp=${OPTARG};;
             s)
-                echo "112"
                 checkargs
                 setupdb=1;;
+            H)  
+                checkargs
+                hostname=${OPTARG};;
+            P)  
+                checkargs
+                port=${OPTARG};;
+            u)
+                checkargs
+                user=${OPTARG};;
+            p)  
+                checkargs
+                pass=${OPTARG};;
+            d)
+                checkargs
+                db=${OPTARG};;
             \? )
                 echo "Invalid Option"
                 exit 1;;
@@ -68,30 +90,37 @@ function print_help() {
 }
 
 function exec_sql_files() {
+    echo "Executing SQL files"
     export MYSQL_PWD=$pass;
     echo -ne '                          (0%)\r'
 
-    mysql -h $host_arg --port=$port $db -u$user < sql/movies_table.sql
-    # echo "sql/movies_table.sql Executed"
+    mysql -h $hostname --port=$port $db -u$user < sql/movies_table.sql
     echo -ne '#######                   (25%)\r'
-    
-    mysql -h $host_arg --port=$port $db -u$user < sql/ratings_table.sql
-    # echo "sql/ratings_table.sql Executed"
+
+    mysql -h $hostname --port=$port $db -u$user < sql/ratings_table.sql
     echo -ne '#############             (50%)\r'
-    
-    mysql -h $host_arg --port=$port $db -u$user < sql/vw_movies_ratings.sql
-    # echo "sql/vw_movies_ratings.sql Executed"
+
+    mysql -h $hostname --port=$port $db -u$user < sql/vw_movies_ratings.sql
     echo -ne '#################         (75%)\r'
-    
-    mysql -h $host_arg --port=$port $db -u$user < sql/spr_get_top_ranked_movies.sql
-    # echo "sql/spr_get_top_ranked_movies.sql Executed"
-    echo -ne '#######################   (100%)\r'
+
+    mysql -h $hostname --port=$port $db -u$user < sql/spr_get_top_ranked_movies.sql
+    echo -ne '#######################   (100%) Done!\r'
     echo -ne '\n'
 }
 
 function exec_import_to_db() {
     echo "Importing data to db"
-    python3 import_to_db.py
+    python3 import_to_db.py &
+    PID=$!
+    i=1
+    sp="/-\|"
+    echo -n ' '
+    while [ -d /proc/$PID ]
+    do
+        printf "\b${sp:i++%${#sp}:1}"
+    done
+    echo ""
+    echo "Done!"
 }
 
 function construct_command () {
@@ -129,13 +158,12 @@ function construct_command () {
 ###################
 parse_arguments "$@";
 
-if [[ -v setupdb ]]
+if [[ -v setupdb ]];
 then
-echo "1"
+    
     exec_sql_files;
-    import_to_db;
+    exec_import_to_db;
 else
-echo "2"
     construct_command;
     eval $cmd;
 fi
