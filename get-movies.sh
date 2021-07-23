@@ -1,8 +1,11 @@
 #!/bin/bash
 #purpose: wrapper for get-movies application
 #author:  Vitaliy Povstenko
-#date:    17/07/2021
+#date:    22/07/2021
 
+filename="ml-latest-small.zip"
+url="https://files.grouplens.org/datasets/movielens/${filename}"
+data_path="data/"
 
 function parse_arguments() {
     if [ $# -eq 0 ]
@@ -81,12 +84,18 @@ function print_help() {
     echo "Usage:"
     echo "  ./get-movies.sh [-h] [-n TOPN] [-g GENRES] [-f YEAR_FROM] [-t YEAR_TO] [-r REGEXP]"
     echo "Optional arguments:"
-    echo "  -help (help) show this message and exit"
+    echo "  -h (help) show this message and exit"
     echo "  -n (topN) the number of top rated movies for each genre (example: 3)"
     echo "  -g (genres) user-defined genre filter. can be multiple. (example: \"Comedy|Adventure\")"
     echo "  -f (year_from) the lower boundary of year filter (example: 1980)"
     echo "  -t (year_to) the lower boundary of year filter (example: 2010)"
     echo "  -r (regexp) filter on name of the film (example: love)"
+    echo "  -s (setupdb) flag for setup db"
+    echo "  -H (host) host name for connection to db (default: localhost)"
+    echo "  -P (port) port for connection to db (default: 3306)"
+    echo "  -u (user) user name for connection to db (default: root)"
+    echo "  -p (password) user password for connection to db (default: root)"
+    echo "  -d (db) database name for use (default: master)"
 }
 
 function exec_sql_files() {
@@ -152,6 +161,17 @@ function construct_command () {
     fi
 }
 
+function download_data_files() {
+
+    out=$(wget -qN $url 2>&1)
+    unzip -d $data_path -o $filename
+    rm -r $filename
+}
+
+function remove_data_files() {
+    rm -r $data_path
+}
+
 
 ###################
 ##    MAIN      ###
@@ -160,11 +180,13 @@ parse_arguments "$@";
 
 if [[ -v setupdb ]];
 then
-    
     exec_sql_files;
+    download_data_files;
     exec_import_to_db;
+    remove_data_files;
 else
     construct_command;
     eval $cmd;
 fi
+
 #END
